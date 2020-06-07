@@ -11,6 +11,8 @@ Though I couldn't make it every single day, I trust it makes me better. GO STEAD
 
 ### Database
 
+- 오라클 기본키(PK) 2개 이상 지정하기
+
 ### Linux
 
 - 자주 쓰이는 Linux 명령어 모음
