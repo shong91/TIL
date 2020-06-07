@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 자주 쓰이는 Linux 명령어 모음
+title: [Linux] 자주 쓰이는 Linux 명령어 모음
 tags: [Linux]
 author: hhhongso
 excerpt_separator: 
