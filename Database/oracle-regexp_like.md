@@ -31,7 +31,7 @@ SELECT * FROM EMPLOYEES WHERE LAST_NAME IN ('King', 'Austin');
 SELECT * FROM EMPLOYEES WHERE LAST_NAME LIKE '%ins%'; 
 ```
 
-![img_01](../z.images/oracle-regexp_like_02.png)
+![img_02](../z.images/oracle-regexp_like_02.png)
 
 LIKE 연산자 역시 OR 를 반복하여 사용할 수 있다. 하지만, LIKE 연산자는 IN 연산자와 함께 사용할 수 없어, 다음과 같이 사용할 경우 구문 오류를 뱉어낸다. 
 
@@ -43,7 +43,7 @@ LIKE 연산자 역시 OR 를 반복하여 사용할 수 있다. 하지만, LIKE 
 SELECT * FROM EMPLOYEES WHERE REGEXP_LIKE (LAST_NAME, 'ins|Mar');
 ```
 
-![img_01](../z.images/oracle-regexp_like_03.png)
+![img_03](../z.images/oracle-regexp_like_03.png)
 
 정규표현식을 사용하여 더 효율적인 검색도 가능하다. REGEXP_LIKE 외에도 정규표현식을 사용하는 연산자는 아래와 같다. 
 
@@ -67,7 +67,7 @@ SELECT * FROM EMPLOYEES WHERE REGEXP_LIKE (LAST_NAME, '^A|^B') order by LAST_NAM
 SELECT * FROM EMPLOYEES WHERE REGEXP_LIKE (LAST_NAME, '^a|^b', 'i') order by LAST_NAME asc; -- 대소문자 구분 없애기 위해 'i' 추가
 ```
 
-![img_01](../z.images/oracle-regexp_like_04.png)
+![img_04](../z.images/oracle-regexp_like_04.png)
 
 - 'pattern$' : Pattern으로 끝나는 line 출력
 
@@ -75,7 +75,7 @@ SELECT * FROM EMPLOYEES WHERE REGEXP_LIKE (LAST_NAME, '^a|^b', 'i') order by LAS
 SELECT * FROM EMPLOYEES WHERE REGEXP_LIKE (LAST_NAME, 'a$|s$');
 ```
 
-![img_01](../z.images/oracle-regexp_like_05.png)
+![img_05](../z.images/oracle-regexp_like_05.png)
 
 - 'p....n' : p로 시작하여 n으로 끝나는 line 
 
@@ -83,7 +83,7 @@ SELECT * FROM EMPLOYEES WHERE REGEXP_LIKE (LAST_NAME, 'a$|s$');
 SELECT * FROM EMPLOYEES WHERE REGEXP_LIKE (LAST_NAME, 'M...s'); -- . = 1 character
 ```
 
-![img_01](../z.images/oracle-regexp_like_06.png)
+![img_06](../z.images/oracle-regexp_like_06.png)
   
 - '\[a-z\]\*' : 모든 이라는 뜻. 글자수가 0일 수도 있음
 
