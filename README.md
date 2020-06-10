@@ -1,6 +1,7 @@
 # Today I Learned
 
 This is simple record for self-studying. 
+
 Though I couldn't make it every single day, I trust it makes me better. GO STEADY. 
 
 
@@ -12,6 +13,7 @@ Though I couldn't make it every single day, I trust it makes me better. GO STEAD
 ### Database
 
 - 오라클 기본키(PK) 2개 이상 지정하기
+- 다중 LIKE 연산자 - 정규표현식 (REGEXP_LIKE)
 
 ### Linux
 
@@ -19,7 +21,9 @@ Though I couldn't make it every single day, I trust it makes me better. GO STEAD
 ### Docker
 
 - ch01. 도커란?
-- ch02-1. 도커 이미지와 컨테이너
+- ch02-1. 도커 컨테이너
+- ch02-2. 도커 이미지
+- ch02-3. 도커파일
 
 
 ### Vue

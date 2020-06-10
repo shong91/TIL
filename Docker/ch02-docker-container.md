@@ -1,11 +1,11 @@
 ---
 layout: post
-title: ［Docker］ ch02-1. 도커 이미지와 컨테이너 
+title: ［Docker］ ch02-1. 도커 컨테이너 
 tags: [docker, kubernetes]
 author: hhhongso
 excerpt_separator: 
 ---
-# chapter02-1 도커 이미지와 컨테이너 
+# chapter02-1 도커 컨테이너 
 
 ## 2.1 도커 이미지와 컨테이너
 1. 도커 이미지
