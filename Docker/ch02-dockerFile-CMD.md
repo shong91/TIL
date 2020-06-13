@@ -1,6 +1,6 @@
 ---
 layout: post
-title: [Docker] ch02-3. 도커파일 - 명령어 정리 (1)
+title: [Docker] ch02-3. 도커파일 - 명령어 정리
 tags: [docker, kubernetes]
 author: hhhongso
 excerpt_separator: 
@@ -9,7 +9,7 @@ excerpt_separator:
 
 ## 4. DockerFile 기타 명령어
 
-#### 1. ENV
+### 1. ENV
 DockerFile에서 사용될 환경변수 지정. 설정된 환경변수는 ${ENV_NAME} 또는 $ENV_NAME 의 형태로 사용한다. 
 
 환경변수는 도커파일과 이미지에 저장되므로, 이미지로 컨테이너를 생성할 시에 환경변수를 사용할 수 있다. 
@@ -60,7 +60,7 @@ my_value / value_update / value /
 
 ```
 
-#### 2. VOLUME
+### 2. VOLUME
 빌드된 이미지로 컨테이너를 생성 시, 호스트와 공유할 컨테이너 내부의 디렉터리를 설정한다.
 
 여러 개의 디렉터리를 설정 시, 연속으로 여러 개를 작성하거나 JSON 배열 형식을 사용할 수 있다. 
@@ -79,7 +79,7 @@ VOLUME /home/volume
 
 ```
 
-#### 3. ARG
+### 3. ARG
 docker build 명령어를 실행할 때, Dockerfile 내에서 사용될 변수의 값을 설정한다. 
 
 입력 형식은 `key=value` 의 쌍을 이룬다. 
@@ -100,7 +100,7 @@ root@daa1fe309051:/# ls /home/mytouch
 
 ```
 
-#### 4. USER
+### 4. USER
 컨테이너 내에서 사용될 사용자 계정의 이름이나 UID 를 설정하면, 그 아래의 명령어는 해당 사용자 권한으로 실행된다. 
 
 컨테이너가 호스트의 root 권한을 가지는 것은 보안 측면에서 바람직하지 않으므로, 컨테이너 내부에서는 root 사용자를 설정하는 것을 권장한다. 
@@ -112,7 +112,7 @@ USER $user_id
 
 <hr>
 
-#### 5. ONBUILD
+### 5. ONBUILD
 빌드된 이미지를 기반으로 하는 다른 이미지가 Dockerfile로 생성될 때 실행할 명령어를 추가한다. 
 
 ```
@@ -144,7 +144,7 @@ Dockerfile2 를 빌드할 때, Dockerfile에 설정해놓은 ONBUILD 명령어�
 또한, `ONBUILD ADD` 를 이용하여 보다 깔끔하게 Dockerfile 을 사용할 수 있다. 
 
 
-#### 6. STOPSIGNAL
+### 6. STOPSIGNAL
 컨테이너가 정지될 때 사용될 시스템 콜의 종류를 지정한다. (DEFAULT = SIGTERM)
 
 ```
@@ -160,7 +160,7 @@ STOPSIGNAL SIGKILL
 
 ```
 
-#### 7. HEALCHECK
+### 7. HEALCHECK
 이미지로부터 생성된 컨테이너에서 동작하는 애플리케이션의 상태를 체크하도록 설정한다. (HEALTHCHECK 에서 사용되는 명령어인 `curl` 을 먼저 설치하여야 함)
 
 ```
@@ -178,7 +178,7 @@ c46432c52003        nginx:healthcheck   "/docker-entrypoint.…"   About a minut
 ...
 ```
 
-#### 8. SHELL
+### 8. SHELL
 Dockerfile 에서 기본적으로 사용하는 셸은, 리눅스에서는 `/bin/sh -c`, 윈도우에서는 `cmd /S /C` 이다. 
 
 별도의 셸을 지정하고자 할 시 SHELL 명령어를 사용하여 설정할 수 있다. 
@@ -186,18 +186,16 @@ Dockerfile 에서 기본적으로 사용하는 셸은, 리눅스에서는 `/bin/
 
 <hr>
 
-#### 9. ADD, COPY
+### 9. ADD, COPY
 컨텍스트로부터 이미지에 파일을 추가/복사 한다는 점에서 ADD/COPY의 기능은 같으나, 
 
-COPY는 로컬 디렉터리의 파일만 이미지에 추가할 수 있는 반명, ADD는 외부 URL 및 tar 파일에서도 파일을 추가할 수 있다. (ADD ⊃ COPY)
+COPY는 로컬 디렉터리의 파일만 이미지에 추가할 수 있는 반면, ADD는 외부 URL 및 tar 파일에서도 파일을 추가할 수 있다. (ADD ⊃ COPY)
 
-(가용 범위는 ADD가 넓지만, 로컬 컨텍스트로부터 파일을 직접 추가하는 COPY 가 보다 명확하기 때문에 ADD 보다는 COPY를 사용하는 것이 권장된다. )
+(가용 범위는 ADD가 넓지만, 로컬 컨텍스트로부터 파일을 직접 추가하는 COPY 가 보다 명확하기 때문에 ADD 보다는 COPY를 사용하는 것이 권장된다.)
 
 
-#### 10. ENTRYPOINT, CMD
-두 명령어는 컨테이너가 시작될 때 실행할 명령어를 설정한다.
-
-단, ENTRYPOINT 는 커맨드를 인자로 받아 사용할 수 있는 스크립트의 역할을 할 수 있다는 점에서 차이가 있다. 
+### 10. ENTRYPOINT, CMD
+두 명령어는 컨테이너가 시작될 때 실행할 명령어를 설정한다. 단, ENTRYPOINT 는 커맨드를 인자로 받아 사용할 수 있는 스크립트의 역할을 할 수 있다는 점에서 차이가 있다. 
 
 ENTRYPOINT 를 설정하지 않고 CMD 만 설정했을 경우, CMD 에 설정된 명령어를 그대로 실행하지만, 
 
