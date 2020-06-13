@@ -13,7 +13,7 @@ excerpt_separator:
 → 도커파일을 이용하여 직접 컨테이너 생성 / 이미지로 커밋하는 번거로움을 줄이고, 애플리케이션 빌드 및 배포의 자동화 가능
 
 
-## 2. DockerFile 작성 - 명령어 정리
+## 2. DockerFile 작성 - 주요 명령어 정리
 
 ```
 FROM ubuntu:14.04
