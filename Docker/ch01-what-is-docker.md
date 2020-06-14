@@ -2,7 +2,7 @@
 layout: post
 title: [Docker] ch01. 도커란?
 tags: [docker, kubernetes]
-author: hhhongso
+author: shong91
 excerpt_separator: 
 ---
 # chapter01. 도커란? 

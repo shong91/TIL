@@ -90,9 +90,16 @@ cf)**스토리지 드라이버의 원리**
     도커에서 사용하고 있는 이미지, 컨테이너, 로컬 볼륨의 총 개수 및 사용 중인 개수, 크기, 삭제함으로써 확보 가능한 공간을 출력하는 명령어. 
     
     => 사용하지 않는 컨테이너와 볼륨은 `docker container prune`, `docker volume prune` 으로 삭제하여 공간을 확보한다. 
-    ```
+    (연습한답시고 이거저거 만들어놓고 안지웠더니 RECLAIMABLE의 상태가... 확인하고 싹 지웠다. )
+    
+   ```
    # docker system df
    ...
+    TYPE                TOTAL               ACTIVE              SIZE                RECLAIMABLE
+    Images              38                  8                   3.613GB             3.557GB (98%)
+    Containers          10                  1                   1.682kB             1.682kB (100%)
+    Local Volumes       12                  2                   857.6MB             857.6MB (99%)
+    Build Cache         0                   0                   0B                  0B
 
     ```
    

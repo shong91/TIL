@@ -2,7 +2,7 @@
 layout: post
 title: [Oracle] 다중 LIKE 연산자 - 정규표현식 (REGEXP_LIKE)
 tags: [Oracle]
-author: hhhongso
+author: shong91
 excerpt_separator: 
 ---
 

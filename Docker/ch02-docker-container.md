@@ -2,7 +2,7 @@
 layout: post
 title: [Docker] ch02-1. 도커 컨테이너 
 tags: [docker, kubernetes]
-author: hhhongso
+author: shong91
 excerpt_separator: 
 ---
 # chapter02-1 도커 컨테이너 

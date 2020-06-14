@@ -2,7 +2,7 @@
 layout: post
 title: [Oracle] 오라클 기본키(PK) 2개 이상 지정하기
 tags: [Oracle]
-author: hhhongso
+author: shong91
 excerpt_separator: 
 ---
 

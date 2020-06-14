@@ -2,7 +2,7 @@
 layout: post
 title: [Docker] ch02-3. 도커파일 - 명령어 정리
 tags: [docker, kubernetes]
-author: hhhongso
+author: shong91
 excerpt_separator: 
 ---
 # chapter02-3 도커 파일
