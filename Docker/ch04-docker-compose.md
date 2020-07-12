@@ -1,11 +1,11 @@
 ---
 layout: post
-title: [Docker] ch02-4. 도커 컴포즈 
+title: [Docker] ch04. 도커 컴포즈 
 tags: [docker, kubernetes]
 author: shong91
 excerpt_separator: 
 ---
-# chapter02-4 도커 컴포즈
+# chapter04 도커 컴포즈
 
 ## 4.1 도커 컴포즈
 매번 run 명령어에 옵션을 더해 CLI로 컨테이너를 생성하기 보다는, 여러 개의 컨테이너를 하나의 서비스로 정의해 컨테이너 묶음으로 관리하는 것이 더욱 편리하다.
