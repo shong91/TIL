@@ -55,12 +55,12 @@ git commit -m "add description"
 
 <br><br>
 
-## 병합하기 (1) merge:
+# 병합하기 (1) merge:
 
-### 1. fast-forward : 
+## 1. fast-forward : 
 ![img_01](../z.images/git_ff.JPG)
 
-### 2. non-fast-forward: 
+## 2. non-fast-forward: 
 ![img_01](../z.images/git_nff.JPG)
 
 <br>
@@ -74,7 +74,7 @@ git merge <commitname>
 
 <br><br>
 
-## 병합하기 (2) rebase:
+# 병합하기 (2) rebase:
 ![img_01](../z.images/git_rebase.JPG)
 
 <br>
@@ -92,13 +92,15 @@ git rebase --continue
 
 issue3 브랜치로 전환하여 master 브랜치에 rebase 를 진행한다. rebase의 경우, 충돌 해결 후 commit 이 아닌 <strong>rebase --continue</strong> 옵션을 지정하여 실행하여야 한다.
 
-<br>
+<br><br>
 
-## 병합 취소하기 
+## 커밋 취소하기
 ```
 git reset --hard HEAD~
 ```
-
-- soft
-- hard
-
+커밋을 버리고 특정 버전으로 되돌아간다. 모드: soft, mixed, hard
+|모드명|HEAD의 위치|인덱스|작업트리|
+|------|--- |---|---|
+|soft|변경|변경X|변경X|
+|mixed|변경|변경|변경X|
+|hard|변경|변경|변경|
