@@ -64,3 +64,18 @@ services:
 
 # docker-compose ps
 ```
+
+
+```
+# 이미지를 빌드하기만 하며, 컨테이너를 시작하지는 않음
+docker-compose build
+
+# 이미지가 존재하지 않을 경우에만 빌드하며, 컨테이너를 시작
+docker-compose up
+
+# 필요치 않을 때도 강제로 이미지를 빌드하며, 컨테이너를 시작
+docker-compose up --build
+
+# 이미지 빌드 없이, 컨테이너를 시작 (이미지 없을 시 실패)
+docker-compose up --no-build 
+```
