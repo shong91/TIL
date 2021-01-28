@@ -11,7 +11,6 @@ Though I couldn't make it every single day, I trust it makes me better. GO STEAD
 ## Spring
 
 ## Database
-
 - [오라클 기본키(PK) 2개 이상 지정하기](./Database/oracle-multiple-PK.md)
 - [다중 LIKE 연산자 - 정규표현식 (REGEXP_LIKE)](./Database/oracle-regexp_like.md)
 
@@ -19,7 +18,6 @@ Though I couldn't make it every single day, I trust it makes me better. GO STEAD
 - [Git Tutorial](./Git/tutorial.md)
 
 ## Linux
-
 - [자주 쓰이는 Linux 명령어 모음](./Linux/frequently-used-command-in-Linux.md)
 
 ## Docker
@@ -32,6 +30,8 @@ Though I couldn't make it every single day, I trust it makes me better. GO STEAD
 - [ch03. 도커 스웜](./Docker/ch03-docker-swarm.md)
 - [ch04. 도커 컴포즈](./Docker/ch04-docker-compose.md)
 
+## python 
+- [Interview Question List](./python/interview_questions.md)
 
 ## Vue
 ## Javascript

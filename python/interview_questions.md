@@ -114,9 +114,28 @@ print(product(3,3))
 - 다른 클래스의 모든 멤버(속성, method) 받는 것
 - 파이썬은 multiple inheritance도 가능해서 여러 부모 class로부터 상속 가능
 
-### Composition?
-- 파이썬에서 상속의 한 종류
-- 기본 클래스에서 상속을 하지만 파생 클래스의 멤버 역할을 하는 기본 클래스의 인스턴스 변수를 사용합
+### Composition ?
+- 파이썬에서 상속의 한 종류. 다른 클래스의 일부 기능을 그대로 이용하고 싶으나, 전체 상속은 피하고 싶을 때 사용
+- 컴포지션은 명시적 선언, 상속은 암시적 선언 
+
+```
+class Calc:
+    def __init(self, x, y):
+        self.x = x
+        self.y = y
+        self.calc2 = Calc2(x, y) # 컴포지션 하고자 하는 클래스의 객체를 명시적으로 선언 
+    
+    # Calc2 의 multiple 함수만을 상속하여 사용
+    def multiply(self):
+        return self.calc2.multiply()
+
+```
+
+**cf) Composition VS. Aggregation**
+- Composition; 구성:
+    전체와 부분이 연관관계를 맺으며, 같은 생명 주기를 갖는다. (Car-Engine, House-Room 의 관계)
+- Aggregation; 집합: 
+    전체와 부분이 연관관계를 맺으며, 같은 생명 주기를 갖지 않는다. (Person-Address, Class-Student 의 관계)
 
 ## Polymorphism
 - 부모 class 내의 method를 자식 class에서 overriding
@@ -177,22 +196,23 @@ Global Interpreter Lock.
     - 클라이언트는 공개키를 얻어 데이터를 암호화해서 전송하고, 서버는 개인키를 이용해 보호화한다.
  
 
+<hr>
 
-# 도커 컨테이너 내부에 nat가 존재할 수 있나요?
+#### 도커 컨테이너 내부에 nat가 존재할 수 있나요?
 
-# 파이썬의 GC는 어떻게 작동하나요?
+#### 파이썬의 GC는 어떻게 작동하나요?
 
-# 프로세스와 쓰레드는 어떻게 다른가요?
+#### 프로세스와 쓰레드는 어떻게 다른가요?
 
-# 왜 celery 백엔드로 SQS를 사용했나요? 그때 문제는 없었나요?
+#### celery 사용법?
 
-# pypy는 도대체 왜 CPython보다 빠른 걸까요?
+#### pypy는 도대체 왜 CPython보다 빠른 걸까요?
 
-# 웹 서비스 응답이 느리다면 어떻게 해결할 수 있을까요?
+#### 웹 서비스 응답이 느리다면 어떻게 해결할 수 있을까요?
 
-# python에서 메모리 릭이 발생할 수 있는 경우는 언제일까요?
+#### python에서 메모리 릭이 발생할 수 있는 경우는 언제일까요?
 
-# 도커와 VM의 차이점은 뭔가요?
+#### 도커와 VM의 차이점은 뭔가요?
 
 
 
