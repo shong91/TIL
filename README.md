@@ -37,3 +37,5 @@ Though I couldn't make it every single day, I trust it makes me better. GO STEAD
 ## Javascript
 ## Tools
 ## etc
+- [Nginx 란?](./etc/what-is-nginx.md)
+- [NodeJS 란?](./etc/what-is-nodejs.md)
