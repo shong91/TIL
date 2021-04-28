@@ -151,6 +151,12 @@ $ git checkout -b [브랜치명]
 $ git push --set-upstream origin [브랜치명]
 ```
 
+* 브랜치 이름 변경 
+```
+$ git branch -m <new_name_branch>
+```
+
+
 ## 자주 사용되는 git 명령어 정리 
 ```
 $ git branch -> 로컬 branch 확인 
