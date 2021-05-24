@@ -158,9 +158,29 @@ $ git reset --hard HEAD^
 ```
 
 **reset 옵션**
+
 – soft : index 보존(add한 상태, staged 상태), 워킹 디렉터리의 파일 보존. 즉 모두 보존.
+
 – mixed : index 취소(add하기 전 상태, unstaged 상태), 워킹 디렉터리의 파일 보존 (기본 옵션)
+
 – hard : index 취소(add하기 전 상태, unstaged 상태), 워킹 디렉터리의 파일 삭제. 즉 모두 취소.
+
+- 상태 되돌리기: revert
+  결과는 reset --mixed와 동일하나, 이력은 남는다. (reset 은 이력도 지워진다. )
+
+```
+$ git revert [되돌릴 커밋]
+```
+
+**revert와 reset, 어떨 때 사용하면 좋을까?**
+
+reset 은 이력을 함께 지우기 때문에 이력을 단순하게 만들어준다는 점에서 장점이 있다.
+
+하지만, 예를 들어, 이력 중간에 로그 출력하도록 한 커밋이 있고, 그 커밋만을 취소하려고 한다면 reset 을 사용하여 이후의 이력을 모두 제거하는 것은 이후 이력을 모두 날려버리는 결과를 낳는다.
+
+이 때 revert 를 사용하여 해당 커밋의 내용만들 되돌릴 수 있다.
+
+또한, 이미 원격 리파지토리에 push 한 상태라면, reset 을 사용하면 reset 하기 이전으로 되돌리기 전까지는 push 할 수 없다. (-force 옵션이 있기는 하나, 이미 push 한 코드라면 revert 를 사용하는 것을 권장. )
 
 - commit 메시지 변경하기
 
@@ -216,32 +236,17 @@ $ git branch -t [브랜치명]
 $ git branch -m [new_branchname]
 ```
 
-## 자주 사용되는 git 명령어 정리
+- 브랜치 병합
 
 ```
-$ git branch -> 로컬 branch 확인
-$ git branch -r 서버 branch 확인
-$ git checkout -b 브랜치명 브랜치를 만들고 바로 이동
-$ git branch -d(D) test 브랜치 삭제
-$ git status 현재상태(머지나 추가사항) 확인
-$ git add 경로 에러를 해결하고 추가하여 에러해결
-$ git stash 임시저장
-$ git stash pop 임시저장한파일 불러오기
-$ git remote prune origin 깃랩에서 삭제한거 서버와 동기화
-$ git push origin :브랜치네임 서버에서 삭제하기
-$ git remote
-$ git push origin dev
-$ git config http.postBuffer 104857600 git오류시 해결
-$ git merge --squash dev $ git merge --no-ff feature- : 새로운 가지 따서 merge(관리상 용이)
-$ git clone 주소
-$ git remote set-url origin 주소 : gitlap 저장소 변경시 설정
-$ git remote -v : gitlap 저장소 주소 확인 // 고아 브랜치 만드는 방법 $ git checkout master
-$ git checkout --orphan c_YYMMDD_CAMPAIGNNAME $ git rm -rf .
-$ git push origin c_YYMMDD_CAMPAIGNNAME
-
+$ git checkout [브랜치명]
+$ git merge [--squash/--no-ff] [병합할 대상 브랜치]
+// --squash: 대상 브랜치의 모든 커밋을 하나의 커밋으로 합쳐서 merge => 간략한 히스토리 관리 시 사용
+// --no-ff: fast-forward 관계에서 merge 를 실행 시 merge commit 이 생략되는데(--ff), --no-ff 옵션을 추가 시 merge commit 을 생성한다.
 ```
 
 ### References
 
 1. https://webclub.tistory.com/317 [Web Club]
 2. https://gmlwjd9405.github.io/2018/05/25/git-add-cancle.html
+3. https://www.devpools.kr/2017/02/05/%EC%B4%88%EB%B3%B4%EC%9A%A9-git-%EB%90%98%EB%8F%8C%EB%A6%AC%EA%B8%B0-reset-revert/
