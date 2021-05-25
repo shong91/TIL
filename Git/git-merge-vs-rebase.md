@@ -54,17 +54,19 @@ merge 하게 되면 fast-forward 하는 대신 새로운 merge commit [commit6] 
 위와 같이 merge commit 이 생성되는 것은 즉 merge graph 에 가독성을 해치는 commit log 가 찍히는 것이기 때문에, 불필요한 commit object 의 생성을 방지하기 위해 rebase 를 사용할 수 있다.
 
 **cf) merge - fast-forward 와 non-fast-forward**
+
 1-1. fast-forward :
 
 ![img_01](../z.images/git_ff.JPG)
 
-1-2. merge non-fast-forward:
+1-2. non-fast-forward:
 
 ![img_01](../z.images/git_nff.JPG)
 
 ## 2. rebase:
 
 ![img_01](../z.images/git_rebase.JPG)
+
 rebase 는 말 그대로, base 를 다시 설정한다는 의미이다.
 
 merge commit 이 일어났던 동일 시나리오에서 rebase 를 진행할 시, [commit5] 가 base commit 으로 변환된다. (`git checkout dev` -> `git rebase master`)
