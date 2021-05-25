@@ -144,18 +144,18 @@ $ git reset [파일명]
 - git commit 취소하기
 
 ```
-// [방법 1] commit을 취소하고 해당 파일들은 staged 상태로 워킹 디렉터리에 보존
 $ git reset --soft HEAD^
-
-// [방법 2] commit을 취소하고 해당 파일들은 unstaged 상태로 워킹 디렉터리에 보존
 $ git reset --mixed HEAD^ // 기본 옵션
-$ git reset HEAD^ // 위와 동일
 $ git reset HEAD~2 // 마지막 2개의 commit을 취소
-
-// [방법 3] commit을 취소하고 해당 파일들은 unstaged 상태로 워킹 디렉터리에서 삭제
 $ git reset --hard HEAD^
 
 ```
+
+| 모드명 | HEAD의 위치 | 인덱스 | 작업 디렉토리 |
+| ------ | ----------- | ------ | ------------- |
+| soft   | 변경        | 변경X  | 변경X         |
+| mixed  | 변경        | 변경   | 변경X         |
+| hard   | 변경        | 변경   | 변경          |
 
 **reset 옵션**
 
@@ -198,6 +198,13 @@ git push [-u: 원격 저장소로부터 업데이트 받은 후 push] [리모트
 ```
 
 충돌 발생 시, 원격 저장소와 로컬의 충돌 내용을 확인, 수정 후 해당 파일을 add - commit - push 한다.
+
+- 로그 확인하기
+
+```
+$ git log
+$ git log --graph // 그래프로 확인하기
+```
 
 ## 브랜치
 
