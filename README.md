@@ -43,8 +43,10 @@ Though I couldn't make it every single day, I trust it makes me better. GO STEAD
 
 ## Vue
 
-- [Vuex 란?](./Vue/what-is-vuex.md)
 - [생각날 때마다 적어두는 vue note](./Vue/note.md)
+- [Vuex 란?](./Vue/what-is-vuex.md)
+- [Mixin 이란? Vue에서 Mixin 사용하기](./Vue/what-is-mixin.md)
+- [Vee-Validate 사용하기](./Vue/how-to-use-vee-validate.md)
 
 ## Javascript
 
