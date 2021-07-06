@@ -24,3 +24,18 @@ assertEquals(Double.NaN, 0d / 0);
 assertEquals(Float.POSITIVE_INFINITY, 12f / 0);
 assertEquals(Double.NEGATIVE_INFINITY, -12d / 0);
 ```
+
+계산식 초기에 infinity/NaN 값이 나왔다면, 어떠한 산술 연산을 수행해도 그 값이 변하지 않는다.
+
+때문에 이를 방지하기 위해
+
+1. 0.0d, 0.0f 의 값을 정수 0 으로 치환하거나,
+2. infinity/NaN 을 체크하는 방어코드를 짜는 것이 좋다.
+
+```
+if(Double.isInifinite(number) || Double.isNaN(number)) {
+    // 후처리
+}
+
+
+```
