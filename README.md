@@ -8,6 +8,8 @@ Though I couldn't make it every single day, I trust it makes me better. GO STEAD
 
 ## Java
 
+- [divide by zero 처리하기](./Java/divideByZero-exception-infinity-NaN.md)
+
 ## Spring
 
 ## Database
