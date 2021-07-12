@@ -12,8 +12,9 @@ Though I couldn't make it every single day, I trust it makes me better. GO STEAD
 
 ## Database
 
-- [오라클 기본키(PK) 2개 이상 지정하기](./Database/oracle-multiple-PK.md)
-- [다중 LIKE 연산자 - 정규표현식 (REGEXP_LIKE)](./Database/oracle-regexp_like.md)
+- [[Oracle] 오라클 기본키(PK) 2개 이상 지정하기](./Database/oracle-multiple-PK.md)
+- [[Oracle] 다중 LIKE 연산자 - 정규표현식 (REGEXP_LIKE)](./Database/oracle-regexp_like.md)
+- [[MySQL] INSERT 시 중복 키 관리하는 방법](./Database/mysql-duplicate-update.md)
 
 ## Git
 
