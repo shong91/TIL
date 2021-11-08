@@ -25,7 +25,7 @@
 
 ### Pod
 
-- 가장 기본적인 배포단위 (쿠버네티스는 파드 단위로 배포)
+가장 기본적인 배포단위 (쿠버네티스는 파드 단위로 배포)
 
 1. Container
 
@@ -46,9 +46,7 @@
 
 ### Service
 
-- 파드 배포 시, 여러 개의 파드를 하나의 서비스로 묶어 배포한다.
-
-종류
+파드 배포 시, 여러 개의 파드를 하나의 서비스로 묶어 배포한다.
 
 1. Cluster IP
 
@@ -70,8 +68,9 @@
 
 ### Volume
 
-- 파드 내의 컨테이너들끼리 데이터를 공유하기 위해 사용
-- 파드가 기동할 때 컨테이너에 마운트하여 사용
+파드 내의 컨테이너들끼리 데이터를 공유하기 위해 사용
+
+파드가 기동할 때 컨테이너에 마운트하여 사용한다.
 
 1. emptyDir
 
@@ -94,7 +93,7 @@
 1. ConfigMap
 
 - 컨테이너에서 필요한 환경 설정 내용을 컨테이너와 분리하여 제공하기 위한 기능
-- dev, prod 에서 서로 다른 설정을 필요로 할 경우 사용
+- dev, prod 등 서로 다른 설정을 필요로 할 경우 사용
 - ConfigMap을 컨테이너와 분리함으로써, 하나의 동일한 컨테이너를 가지고 dev, staging, prod용으로 모두 사용할 수 있다
 
 2. Secret
@@ -119,6 +118,80 @@
 - 파드마다 Namespace 에 들어올 수 있는지 체크하며, 한도 초과 시 접근 제한
 - min, max, maxLimitRequestRatio 값 설정
 
-패키지 명
-
 ## Controller
+
+- 기본 오브젝트를 생성하고 관리하는 역할
+- Auto Healing, Auto Scaling, Software Update (& Rollback when error), Job
+
+### Replication Controller, ReplicaSet
+
+1. Replication Controller (Deprecated!)
+
+- 지정된 숫자로 파드를 기동시키고 관리하는 역할
+- 구성
+  1. Replica의 수: 지정된 숫자만큼 파드의 수를 유지하도록 한다
+  2. Pod Selector: 라벨을 기반으로하여 RC가 관리한 파드를 가지고 온다
+  3. Pod Template: 파드에 대한 정보(도커 이미지, 포트, 라벨 등)를 정의하여, 파드를 추가 기동 시 template 을 사용
+
+2. ReplicaSet
+
+- RC의 새 버전. set 기반의 Pod selector 를 사용
+- `matchExpressions: {key:value, operator:Exists}` 옵션을 사용하여 보다 디테일한 selector 설정이 가능
+
+### Deployment
+
+1. ReCreate
+
+   ![img_01](https://kubetm.github.io/img/practice/beginner/Deployment%20with%20ReCreate%20for%20Kubernetes.jpg)
+
+- 기존 RC의 replica 수 = 0 으로 변경 후 새로운 RC 를 생성
+- Downtime, 추가 리소스 필요 X
+
+2. Rolling Update
+
+   ![img_02](../z.images/k8s-object-deployment-bluegreen.JPG)
+
+- Pod를 하나씩 업그레이드 해가는 방식
+- {새로운 RC 생성 (replica 수 +1) & 기존 RC 의 replica 수 -1} 를 반복작업하여, 새로운 RC에 생성된 파드만 서비스되도록 함
+- 만약에 배포가 잘못되었을 경우에는 기존 RC의 replica 수를 원래대로 올리고, 새버전의 replicat 수를 0으로 만들어서 예전 버전의 Pod로 롤백 가능
+- Zero Downtime, 추가 리소스 필요
+
+3. Blue-Green
+
+   ![img_03](https://kubetm.github.io/img/practice/beginner/Deployment%20with%20ReCreate%20for%20Kubernetes.jpg)
+
+- 블루(예전)버전으로 서비스 하고 있던 시스템을 그린(새로운)버전을 배포한 후, 트래픽을 블루에서 그린으로 한번에 돌리는 방식
+- 배포가 완료되고 문제가 없으면 예전 버전의 RC 와 Pod를 지워준다
+- Zero Downtime, 추가 리소스 필요
+
+4. Canary
+
+   ![img_04](../z.images/k8s-object-deployment-canary.JPG)
+
+- 두 개의 RC를 두고, Ingress Controller 를 사용하여 url path 에 따라 서비스에 연결하도록 함
+- 배포가 완료되고 문제가 없으면 새 버전의 url path 를 변경하고 예전 버전의 RC와 Pod를 지워준다
+- targeting test 에 용이
+- Zero Downtime, 추가 리소스 필요
+
+### DaemonSet, Job, CronJob
+
+1. DaemonSet
+
+- ReplicaSet 이 자원상태를 고려하여 노드에 파드를 생성하는 반면, DaemonSet 은 자원상태에 관계 없이 모든 노드에 파드를 생성한다
+- Performance, Logging, Storage에 사용
+
+2. Job
+
+- 하나 이상의 파드를 지정하고, 지정된 파드를 성공적으로 실행하도록 하는 설정
+- Backup, Checking, Messaging, Batch process 에 사용
+
+3. CronJob
+
+- Scheduling 에 맞추어 주기적으로 Job을 실행
+- `concurrencyPolicy:Allow / Forbid / Replace`
+
+**Pod 를 어떻게 생성했느냐에 따라 Job/CronJob에서 파드의 실행이 달라진다.**
+
+1. 직접 생성한 Pod: 노드1이 다운될 시, 그대로 서비스 다운 (노드2로 recreate 되지 않음)
+2. Controller 로 생성한 Pod: 노드1이 다운될 시, 노드2로 recreate & restart (controller - auto healing 기능)
+3. Job 으로 생성한 Pod: 노드1이 다운될 시, 노드2로 recreate & finish
