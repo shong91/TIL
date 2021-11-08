@@ -40,6 +40,8 @@ Though I couldn't make it every single day, I trust it makes me better. GO STEAD
 - [ch02-4. 도커 데몬](./Docker/ch02-docker-daemon.md)
 - [ch03. 도커 스웜](./Docker/ch03-docker-swarm.md)
 - [ch04. 도커 컴포즈](./Docker/ch04-docker-compose.md)
+- [k8s. 쿠버네티스 개념](./Docker/k8s-what-is-k8s.md)
+- [k8s. 쿠버네티스 아키텍쳐 & 오브젝트](./Docker/k8s-object.md)
 
 ## python
 
