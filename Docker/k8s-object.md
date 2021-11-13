@@ -44,6 +44,10 @@
 - 파드를 노드에 연결하는 스케쥴링.
 - 직접 노드를 선택하거나, 스케쥴러가 메모리 상황 등을 판단하여 노드에 연결시킨다.
 
+4. and More ...
+
+- [**Pod - 중급편**](./k8s-pod.md)
+
 ### Service
 
 파드 배포 시, 여러 개의 파드를 하나의 서비스로 묶어 배포한다.
@@ -148,8 +152,7 @@
 - Downtime, 추가 리소스 필요 X
 
 2. Rolling Update
-
-   ![img_02](../z.images/k8s-object-deployment-bluegreen.JPG)
+   ![img_02](https://kubetm.github.io/img/practice/beginner/Deployment%20with%20RollingUpdate%20for%20Kubernetes.jpg)
 
 - Pod를 하나씩 업그레이드 해가는 방식
 - {새로운 RC 생성 (replica 수 +1) & 기존 RC 의 replica 수 -1} 를 반복작업하여, 새로운 RC에 생성된 파드만 서비스되도록 함
@@ -158,7 +161,7 @@
 
 3. Blue-Green
 
-   ![img_03](https://kubetm.github.io/img/practice/beginner/Deployment%20with%20ReCreate%20for%20Kubernetes.jpg)
+   ![img_03](../z.images/k8s-object-deployment-bluegreen.JPG)
 
 - 블루(예전)버전으로 서비스 하고 있던 시스템을 그린(새로운)버전을 배포한 후, 트래픽을 블루에서 그린으로 한번에 돌리는 방식
 - 배포가 완료되고 문제가 없으면 예전 버전의 RC 와 Pod를 지워준다
