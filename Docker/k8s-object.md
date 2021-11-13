@@ -152,6 +152,7 @@
 - Downtime, 추가 리소스 필요 X
 
 2. Rolling Update
+
    ![img_02](https://kubetm.github.io/img/practice/beginner/Deployment%20with%20RollingUpdate%20for%20Kubernetes.jpg)
 
 - Pod를 하나씩 업그레이드 해가는 방식
