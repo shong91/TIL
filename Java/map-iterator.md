@@ -4,9 +4,12 @@ create Map: Map 의 순서를 고정하고자 한다면 LinkedHashMap 사용한�
 
 ```
 Map<String, String> map = new LinkedHashMap<String, String>();
-map.put("contract", exceldto.getContractcode());
-map.put("year", exceldto.getChargeyear());
-map.put("month", exceldto.getChargemonth());
+map.put("key1", "value1");
+map.put("key2", "value2");
+map.put("key3", "value3");
+map.put("key4", "value4");
+map.put("key5", "value5");
+
 ```
 
 ## 1. Entry 에 For-Each Loop 사용
