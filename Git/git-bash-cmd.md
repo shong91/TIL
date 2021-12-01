@@ -93,6 +93,16 @@ $ git fetch origin
 $ git pull origin main
 ```
 
+- 리모트 저장소와 연결 시 Git refusing to merge unrelated histories on rebase
+
+  리모트 레파지토리 initial create 시 README.md 파일 등 초기 생성 파일이 함께 생성되어, 로컬 저장소와 sync 되지 않아 생기는 문제.
+
+  `--allow-unrelated-histories` 옵션을 추가하여 주면 된다.
+
+```
+$ git pull origin main --allow-unrelated-histories
+```
+
 - 파일의 상태 확인하기
 
 ```
