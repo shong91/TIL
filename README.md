@@ -45,6 +45,7 @@ Though I couldn't make it every single day, I trust it makes me better. GO STEAD
 - [k8s. 쿠버네티스 개념](./Docker/k8s-what-is-k8s.md)
 - [k8s. 쿠버네티스 아키텍쳐 & 오브젝트](./Docker/k8s-object.md)
 - [k8s. 파드 (Pod)](./Docker/k8s-pod.md)
+- [k8s. 서비스(Service)](./Docker/k8s-service.md)
 
 ## python
 
