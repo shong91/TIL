@@ -70,6 +70,16 @@
 - 로드밸런싱
 - GCP, AWS, Azure 등의 CSP에서는 로드 밸런서 external IP 를 지원함
 
+4. ExternalName 
+
+- 서비스 <-> externalName 에 설정한 값과 연결 (외부 접근 시 사용)
+- 설정해둔 CNAME을 이용하여 클러스터 외부에 접근 
+- selector 가 필요 없음 
+
+5. and More ...
+
+- [**Service - 중급편**](./k8s-service.md)
+
 ### Volume
 
 파드 내의 컨테이너들끼리 데이터를 공유하기 위해 사용
@@ -91,6 +101,10 @@
 
 - 컨테이너가 재시작/배포 될 때 로컬 디스크의 내용이 유실됨 -> 데이터의 영속성을 보장하기 위한 스토리지
 - Persistant Volume(PV) 생성 -> Persistant Volume Claim(PVC) 생성 -> PV 연결 -> Pod 생성 시 PVC 마운팅
+- ReclaimPolicy: PVC 가 삭제될 경우 PV 의 상태를 결정하는 정책 옵션 
+   - Retain: (Default) 데이터 보존, 재사용 불가 (데이터는 수동으로 삭제하여야 함)
+   - Delete: StorageClass 사용 시 Default. Volume 에 따라 데이터 삭제, 재사용 불가 (PVC 삭제 시 PV 도 삭제됨)
+   - Recycle: (Deprecated) 데이터 삭제, 재사용 가능
 
 ### ConfigMap, Secret
 
