@@ -37,6 +37,7 @@ $ sudo service nginx status
 vue project 경로에서 프로젝트를 빌드한다.
 
 ```
+$ sudo apt install npm 
 $ npm run bulid
 ```
 
