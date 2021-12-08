@@ -79,3 +79,11 @@ server {
 ```
 $ sudo service nginx restart
 ```
+
+## Troubleshooting
+
+### error case 1
+
+`error`: [copy-webpack-plugin] unable to locate '/home/ubuntu/devops_front/static' at '/home/ubuntu/devops_front/static'
+
+`resolved`: Had the same trouble, place the .gitkeep file into your static folder.
