@@ -59,6 +59,7 @@ Though I couldn't make it every single day, I trust it makes me better. GO STEAD
 - [Vuex 란?](./Vue/what-is-vuex.md)
 - [Mixin 이란? Vue에서 Mixin 사용하기](./Vue/what-is-mixin.md)
 - [Vee-Validate 사용하기](./Vue/how-to-use-vee-validate.md)
+- [Nginx 를 이용해 Vue project 배포하기](./Vue/deploy-via-nginx.md)
 
 ## Javascript
 
