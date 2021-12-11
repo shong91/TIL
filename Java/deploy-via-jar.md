@@ -74,79 +74,53 @@ jar 파일을 생성하면서 META-INF/METAFEST.MF 파일을 생성하는데, �
                 </execution>
             </executions>
         </plugin>
+        <plugin>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <version>2.2-beta-5</version>
+            <configuration>
+                <archive>
+                    <manifest>
+                        <addClasspath>true</addClasspath>
+                        <mainClass>${start-class}</mainClass>
+                    </manifest>
+                </archive>
+                <descriptorRefs>
+                    <descriptorRef>jar-with-dependencies</descriptorRef>
+                </descriptorRefs>
+            </configuration>
+            <executions>
+                <execution>
+                    <id>assemble-all</id>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>single</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
     </plugins>
 </build>
 ```
-
-
-이제 되겠지? 다시 돌려본다. 
-
-안된다. 
-
-좀 더 찾아보니 maven 빌드하기 전에 clean 을 먼저 해주는 방법을 추천해준다. 
-
-Run - Edit configuration 의 before launch 옵션에 `mvn clean package spring-boot:repackage` 커맨드를 실행하도록 설정을 추가했다. 
-
-![img_3](../z.images/deploy-via-jar_03.png)
-
-
-
-이제 되겠지? 다시 돌려본다. 
-
-안된다. 
-
-좀 더 구글링해서 빌드 플러그인을 하나 더 추가해보았다. (https://stackoverflow.com/questions/38792031/springboot-making-jar-files-no-auto-configuration-classes-found-in-meta-inf)
-
-```
- <plugin>
-    <artifactId>maven-assembly-plugin</artifactId>
-    <version>2.2-beta-5</version>
-    <configuration>
-        <archive>
-            <manifest>
-                <addClasspath>true</addClasspath>
-                <mainClass>${start-class}</mainClass>
-            </manifest>
-        </archive>
-        <descriptorRefs>
-            <descriptorRef>jar-with-dependencies</descriptorRef>
-        </descriptorRefs>
-    </configuration>
-    <executions>
-        <execution>
-            <id>assemble-all</id>
-            <phase>package</phase>
-            <goals>
-                <goal>single</goal>
-            </goals>
-        </execution>
-    </executions>
-</plugin>
-```
-
 
 이제 되겠지? 다시 돌려본다. 
 
 여전히 안된다. 
 
-이제 조금 (많이) 승질이 난다. 
-
-<br>
-
 찾아보니 직접 생성한 jar 파일에서는 나와 동일한 이슈가 발생하는데, `/target/` 폴더에 생성된 *-/SNAPSHOT.jar 파일은 정상 작동을 한다는 글을 발견했다. 
+
+Run - Edit configuration 에 /target/*.jar 을 실행하도록 설정하고,  before launch 옵션에 `mvn clean package spring-boot:repackage` 커맨드를 실행하도록 설정을 추가했다. 
+
+빌드 하기 전에 먼저 clean 을 해 주어야 이전의 빌드 파일이 남지 않는다. (파일을 수정하고 다시 jar 를 실행해도 자꾸 이전 파일을 읽어오는 문제가 있었다. ) 
+
+![img_3](../z.images/deploy-via-jar_03.png)
+
 
 이젠 정말 되겠지? 다시 돌려본다. 
 
 된다! 
 
-왜.. 될까. 
-
-
 앞서 말한대로 intelliJ를 이용한 빌드 방식과 maven 빌드 방식이 차이가 있어서 발생하는 것 같기는 한데... 정확한 이유를 모르겠다. 
 
-아무튼.. 겨우 성공적으로 실행할 수 있었다. 오늘 이것 때문에 도대체 몇시간을 허비한건지.. 
-
-<br>
 
 추후 Dockerfiles 에서도 COPY 경로를 /target/ 의 jar 파일로 설정해주어야한다. 
 
