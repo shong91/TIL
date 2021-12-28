@@ -49,7 +49,8 @@ Though I couldn't make it every single day, I trust it makes me better. GO STEAD
 - [k8s. 서비스(Service)](./Docker/k8s-04-service.md)
 - [k8s. Statefulset](./Docker/k8s-05-statefulset.md)
 - [k8s. Ingress](./Docker/k8s-06-ingress.md)
-- [k8s. helm 사용하기](./Docker/k8s-helm-01-what-is-helm.md) 
+- [k8s. Probe (Health check)](./Docker/k8s-probe-healthcheck.md)
+- [k8s. helm 사용하기](./Docker/k8s-helm-01-what-is-helm.md)
 
 ## python
 
