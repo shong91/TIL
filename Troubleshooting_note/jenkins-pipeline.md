@@ -1,8 +1,5 @@
-# 조져지는 트러블슈팅 노트... 
+# ERROR: docker command not found in Jenkins pipeline 
 
-아직 해결 못함... 나는 그저 수동 배포한 내용을 젠킨스 파이프라인으로 옮기고 싶을 뿐인데
-
-일단 
 1. 젠킨스, 도커 모두 로컬에 설치 
 2. 젠킨스 플러그인 설치: 도커, 쿠버네티스 관련 플러그인 설치 
 3. 파이프라인 스크립트 작성 
@@ -99,8 +96,56 @@ Dockerfile의 WORKDIR 경로가 유효하지 않아 생기는 문제라는 케�
 
 
 
+일단... 1이든 2이든 docker 를 찾지 못하는 것이 key 이니, 환경변수 (PATH 설정 등?) 이 해결책이 될 수 있을 듯 하여 좀 더 찾아보는 중. 
 
-> 그래서.. 아직... 해결중... 
+1. Jenkins 관리 > Status Information > 시스템 정보 : 시스템 속성 및 환경변수 확인 
+
+환경변수 `PATH` 가 로컬의 `/etc/paths` 와 동일함을 확인. 
+
+여기에 도커 경로가 들어가야 하나 싶어.. `which docker` 로 확인한 경로를 추가한 후 restart > rebuild 해 보았으나 여전히 동일한 오류. 
+
+(애초에 /usr/local/bin 이 추가 되어 있으니 /usr/local/bin/docker 는 의미 없는 행동이지만..)
+
+
+PATH	/Users/shong/.nvm/versions/node/v17.2.0/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin/docker
+
+
+### 해결!
+1) 절대경로 사용 
+
+terminal
+```
+$ which docker
+/usr/local/bin/docker
+```
+
+jenkins script 
+```
+$ /usr/local/bin/docker build -t ${IMAGE_NAME} .
+```
+
+2) Docker plugin 의 PATH 설정
+
+Global Tool Configuration > Docker > installiation root 에 로컬에 설치한 도커 경로를 입력해주어야 
+
+jenkins 에서 설치한 docker plugin 이 경로를 인식할 수 있게 된다. 
+
+/usr/local/bin/docker 는 바로가기 같은? 경로라 실제 경로로 적어주는 것이 좋다. 
+
+```
+$ ls -l /usr/local/bin/docker
+lrwxr-xr-x  1 root  wheel  54 12 26 15:04 /usr/local/bin/docker -> /Applications/Docker.app/Contents/Resources/bin/docker
+```
+
+docker installation root
+```
+/Applications/Docker.app/Contents/Resources
+```
+
+**반성**
+1. 가이드의 기본은 공식문서..
+2. 트러블슈팅의 기본은 에러 로그.. 
+
 
 
 ### Reference
