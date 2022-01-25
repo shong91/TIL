@@ -4,9 +4,11 @@ https://kubernetes.io/docs/tasks/configure-pod-container/configure-volume-storag
 
 ## what is Volume ?
 
-컨테이너 파일 시스템은 컨테이너가 살아있는 동안만 존재한다. 따라서 컨테이너가 종료되고 재시작할 때, 파일 시스템 변경사항이 손실된다.
+컨테이너를 실행시키면, 컨테이너 내부에 디스크가 존재하는데, 이 디스크에 저장된 내용은 컨테이너가 죽으면 데이터가 날라가는 휘발성 구조이다.
 
-컨테이너와 독립적이며 보다 일관된 스토리지를 위해 사용자는 볼륨을 사용할 수 있다.
+이러한 컨테이너의 특징을 보완하기 위해 PVC 볼륨을 사용한다.
+
+PVC 볼륨을 사용하여 컨테이너와 독립적이며 보다 일관된 스토리지를 사용하여, 데이터의 영속성을 보존할 수 있다.
 
 이는 레디스(Redis)와 같은 키-값 저장소나 데이터베이스와 같은 스테이트풀 애플리케이션에 매우 중요하다.
 
@@ -21,7 +23,7 @@ https://kubernetes.io/docs/tasks/configure-pod-container/configure-volume-storag
 
 ### 1. 파드에 볼륨 구성
 
-컨테이너가 종료되고, 재시작 하더라도 파드의 수명동안 지속되는 emptyDir 유형으로 파드를 생성한다.
+컨테이너가 종료되고, 재시작 하더라도 파드의 수명동안 지속되는 `emptyDir` 유형으로 파드를 생성한다.
 
 ```
 apiVersion: v1
@@ -79,7 +81,7 @@ root        15  0.0  0.0  17500  2072 ?        R+   00:48   0:00 ps aux
 root@redis:/data/redis# kill <pid>
 ```
 
-`kubectl get pod redis --watch` 를 띄워놓은 터미널에 들언가보면,
+`kubectl get pod redis --watch` 를 띄워놓은 터미널에 들어가보면,
 
 Redis 파드가 `restartPolicy:Always` 로 생성되어 있기 때문에, redis 파드가 죽은 뒤 자동으로 다시 생성된다.
 

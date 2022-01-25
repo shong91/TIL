@@ -2,11 +2,11 @@
 
 https://kubernetes.io/docs/tasks/configure-pod-container/assign-cpu-resource/
 
-## what is ${개념} ?
+## CPU 리소스 관리 ?
 
-메모리 리소스에 요청량과 상한을 할당하는 것과 마찬가지로,
+메모리 리소스에 요청량과 상한을 할당하는 것과 마찬가지로, 컨테이너의 CPU 에 요청량과 상한을 할당할 수 있다.
 
-컨테이너의 CPU 에 요청량과 상한을 할당할 수 있다.
+컨테이너는 CPU 에 할당된 상한을 넘겨 사용할 수 없다.
 
 ## Hands-on
 
@@ -55,6 +55,8 @@ kubectl get pod cpu-demo --output=yaml --namespace=cpu-example
 
 ```
 kubectl top pod cpu-demo --namespace=cpu-example
+NAME                        CPU(cores)   MEMORY(bytes)
+cpu-demo                    974m         <something>
 ```
 
 ### 2. 노드에 비해 너무 큰 CPU request 지정
@@ -83,7 +85,9 @@ spec:
 kubectl apply -f https://k8s.io/examples/pods/resource/cpu-request-limit-2.yaml --namespace=cpu-example
 ```
 
-노드 내 메모리가 부족하여 파드가 스케줄링 되지 못하고, PENDING가 계속 지속된다.
+상한이 100인 CPU에 요청량 100의 CPU를 2대 할당하려고 한다.
+
+이 경우 노드 내 메모리가 부족하여 파드가 스케줄링 되지 못하고, PENDING가 계속 지속된다.
 
 ```
 kubectl get pod cpu-demo-2 --namespace=cpu-example

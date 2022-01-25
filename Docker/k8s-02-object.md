@@ -70,11 +70,11 @@
 - 로드밸런싱
 - GCP, AWS, Azure 등의 CSP에서는 로드 밸런서 external IP 를 지원함
 
-4. ExternalName 
+4. ExternalName
 
 - 서비스 <-> externalName 에 설정한 값과 연결 (외부 접근 시 사용)
-- 설정해둔 CNAME을 이용하여 클러스터 외부에 접근 
-- selector 가 필요 없음 
+- 설정해둔 CNAME을 이용하여 클러스터 외부에 접근
+- selector 가 필요 없음
 
 5. and More ...
 
@@ -101,10 +101,10 @@
 
 - 컨테이너가 재시작/배포 될 때 로컬 디스크의 내용이 유실됨 -> 데이터의 영속성을 보장하기 위한 스토리지
 - Persistant Volume(PV) 생성 -> Persistant Volume Claim(PVC) 생성 -> PV 연결 -> Pod 생성 시 PVC 마운팅
-- ReclaimPolicy: PVC 가 삭제될 경우 PV 의 상태를 결정하는 정책 옵션 
-   - Retain: (Default) 데이터 보존, 재사용 불가 (데이터는 수동으로 삭제하여야 함)
-   - Delete: StorageClass 사용 시 Default. Volume 에 따라 데이터 삭제, 재사용 불가 (PVC 삭제 시 PV 도 삭제됨)
-   - Recycle: (Deprecated) 데이터 삭제, 재사용 가능
+- ReclaimPolicy: PVC 가 삭제될 경우 PV 의 상태를 결정하는 정책 옵션
+  - Retain: (Default) 데이터 보존, 재사용 불가 (데이터는 수동으로 삭제하여야 함)
+  - Delete: StorageClass 사용 시 Default. Volume 에 따라 데이터 삭제, 재사용 불가 (PVC 삭제 시 PV 도 삭제됨)
+  - Recycle: (Deprecated) 데이터 삭제, 재사용 가능
 
 ### ConfigMap, Secret
 
@@ -118,6 +118,21 @@
 
 - 비밀번호, OAuth 토큰, ssh 키 등 민감 정보를 저장하는 용도로 사용
 - key:value 형태로 구성하며, 값은 base64 로 인코딩됨
+- 종류: 내장 시크릿(built-in), 사용자 시크릿
+  - 내장 시크릿: 쿠버네티스 클러스터 내부에서 API에 접근할때 사용. 클러스터 내부에서 사용되는 계정인 `ServiceAccount`를 생성하면 자동으로 관련 시크릿이 만들어지며, 이를 통해 해당 `ServiceAccount`가 권한을 가지고 있는 API에 접근할 수 있다.
+  - 사용자 시크릿: 사용자가 만든 시크릿. `kubectl create secret` 명령 또는 yaml 파일로 생성 가능.
+- 시크릿 타입
+  | 빌트인 타입 | 사용처 |
+  | ----------------------------------- | --------------------------------------- |
+  | Opaque | 임의의 사용자 정의 데이터. (default type) |
+  | kubernetes.io/service-account-token | 서비스 어카운트 토큰 |
+  | kubernetes.io/dockercfg | 직렬화 된(serialized) ~/.dockercfg 파일 |
+  | kubernetes.io/dockerconfigjson | 직렬화 된 ~/.docker/config.json 파일 |
+  | kubernetes.io/basic-auth | 기본 인증을 위한 자격 증명(credential) |
+  | kubernetes.io/ssh-auth | SSH를 위한 자격 증명 |
+  | kubernetes.io/tls TLS | 클라이언트나 서버를 위한 데이터 |
+  | bootstrap.kubernetes.io/token | 부트스트랩 토큰 데이터 |
+- [and more... (공식문서 내용 보기)](https://kubernetes.io/ko/docs/concepts/configuration/secret/)
 
 ### Namespace, ResourceQuota, LimitRange
 
