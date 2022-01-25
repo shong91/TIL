@@ -2,7 +2,7 @@
 
 https://kubernetes.io/docs/tasks/configure-pod-container/configure-projected-volume-storage/
 
-## what is projected volume ?
+## what is Projected volume ?
 
 Projected Volume 은 여러 기존 볼륨 소스를 동일한 디렉토리에 매핑한다.
 
@@ -17,7 +17,7 @@ Projected Volume 은 여러 기존 볼륨 소스를 동일한 디렉토리에 �
 
 ### 목표:
 
-- Projected Volume 에 볼륨 마운트 하여 사용
+- Projected Volume 에 Secret 을 마운트 하여 사용
 
 ### 실습
 
@@ -33,7 +33,6 @@ echo -n "1f2d1e2e67df" > ./password.txt
 # Package these files into secrets:
 kubectl create secret generic user --from-file=./username.txt
 kubectl create secret generic pass --from-file=./password.txt
-
 ```
 
 ```
@@ -58,7 +57,7 @@ spec:
     args:
     - sleep
     - "86400"
-    volumeMounts:
+    volumeMounts:               # 컨테이너 안에 마운트 할 경로 설정
     - name: all-in-one
       mountPath: "/projected-volume"
       readOnly: true
@@ -77,11 +76,10 @@ kubectl apply -f https://k8s.io/examples/pods/storage/projected.yaml
 pod/test-projected-volume created
 ```
 
-파드가 정상적으로 생성되고, running 되고 있는지 아래 커맨드를 동해 지켜본다.
+파드가 정상적으로 생성되고, running 되고 있는지 아래 커맨드를 통해 지켜본다.
 
 ```
 kubectl get --watch pod test-projected-volume
-
 ```
 
 ### 3. 생성된 Projected Volume 의 내용 확인

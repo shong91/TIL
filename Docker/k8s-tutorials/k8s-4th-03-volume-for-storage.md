@@ -4,13 +4,27 @@ https://kubernetes.io/docs/tasks/configure-pod-container/configure-volume-storag
 
 ## what is Volume ?
 
-컨테이너를 실행시키면, 컨테이너 내부에 디스크가 존재하는데, 이 디스크에 저장된 내용은 컨테이너가 죽으면 데이터가 날라가는 휘발성 구조이다.
+컨테이너 파일 시스템은 컨테이너가 살아있는 동안만 존재한다.
 
-이러한 컨테이너의 특징을 보완하기 위해 PVC 볼륨을 사용한다.
+컨테이너를 실행시키면, 컨테이너 내부에 디스크가 존재하는데, 이 디스크에 저장된 내용은 컨테이너가 죽으면 데이터가 날라가는 휘발성 구조이다. 따라서 컨테이너가 종료되고 재시작할 때, 파일 시스템 변경사항이 손실된다.
 
-PVC 볼륨을 사용하여 컨테이너와 독립적이며 보다 일관된 스토리지를 사용하여, 데이터의 영속성을 보존할 수 있다.
+컨테이너와 독립적이며 보다 일관된 스토리지를 위해 사용자는 볼륨을 사용할 수 있다.
 
 이는 레디스(Redis)와 같은 키-값 저장소나 데이터베이스와 같은 스테이트풀 애플리케이션에 매우 중요하다.
+
+### and more, what is PV/PVC ?
+
+기본적으로 Volume 은 파드의 라이프 사이클을 따른다. 즉, 파드 생성 시 만들어지고, 삭제 시 함께 삭제된다. (일시적인 데이터만 관리하는 것을 권장)
+
+이를 보완하기 위해 데이터의 영속성을 보장하기 위한 스토리지인 Persistant Volume(PV) 를 사용한다. PV 는 파드 라이프사이클과 독립적이며 재시작, 재스케줄링이나 파드를 삭제할 때에도 데이터를 보존한다.
+
+퍼시스턴트볼륨(PV)는 관리자가 수동으로 프로비저닝한 클러스터나 쿠버네티스 스토리지클래스를 이용해 동적으로 프로비저닝된 저장소의 일부이다.
+
+퍼시스턴트볼륨클레임(PVC)은 PV로 충족할 수 있는 사용자에 의한 스토리지 요청이다.
+
+(Persistant Volume(PV) 생성 -> Persistant Volume Claim(PVC) 생성 -> PV 연결 -> Pod 생성 시 PVC 마운팅)
+
+https://kubernetes.io/ko/docs/concepts/storage/persistent-volumes/
 
 ## Hands-on
 
@@ -23,7 +37,13 @@ PVC 볼륨을 사용하여 컨테이너와 독립적이며 보다 일관된 스�
 
 ### 1. 파드에 볼륨 구성
 
-컨테이너가 종료되고, 재시작 하더라도 파드의 수명동안 지속되는 `emptyDir` 유형으로 파드를 생성한다.
+`emptyDir` 유형으로 파드를 생성한다.
+
+cf) emptyDir
+
+`emptyDir`은 Pod가 사라지면 볼륨도 같이 삭제되는 임시 볼륨의 성격을 가지고 있고, Pod가 실행되는 디스크의 공간에 볼륨 마운트를 하게 된다.
+
+이러한 이유로 Life cycle이 컨테이너가 아닌, Pod 단위로 되어있어서 컨테이너가 어떠한 문제로 삭제되어도 Pod는 실행중이므로 데이터는 emptyDir에 의해 보관되며, Pod가 삭제되는 순간 emptyDir로 보관중이던 모든 데이터는 삭제 됩니다.
 
 ```
 apiVersion: v1
@@ -34,7 +54,7 @@ spec:
   containers:
   - name: redis
     image: redis
-    volumeMounts:
+    volumeMounts:           # 컨테이너 안에 마운트 할 경로 설정
     - name: redis-storage
       mountPath: /data/redis
   volumes:
@@ -83,7 +103,7 @@ root@redis:/data/redis# kill <pid>
 
 `kubectl get pod redis --watch` 를 띄워놓은 터미널에 들어가보면,
 
-Redis 파드가 `restartPolicy:Always` 로 생성되어 있기 때문에, redis 파드가 죽은 뒤 자동으로 다시 생성된다.
+Redis 파드가 `restartPolicy:Always` 로 생성되어 있기 때문에, redis 컨테이너가 죽은 뒤 자동으로 다시 생성된다.
 
 ```
 NAME    READY   STATUS    RESTARTS   AGE
