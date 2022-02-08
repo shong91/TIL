@@ -268,6 +268,10 @@ Batch Normalization
 
 전이학습
 
+## 자연어 처리
+
+**[and more, 자세히 보기](https://wikidocs.net/109251)**
+
 ## 용어들
 
 ### 차원의 저주
