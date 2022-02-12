@@ -1,6 +1,6 @@
 # CKAD exercises
 
-# 1. Core concepts
+# 1. Core concepts (13%)
 
 자주 쓰이는 플래그 정리
 

@@ -1,6 +1,6 @@
 # CKAD exercises
 
-# 2. Multi-container Pod
+# 2. Multi-container Pod (10%)
 
 ## 연습문제 1
 
