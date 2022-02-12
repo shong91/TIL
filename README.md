@@ -50,11 +50,6 @@ Though I couldn't make it every single day, I trust it makes me better. GO STEAD
 
 ### k8s
 
-튜토리얼 시리즈
-
-- [ConfigMap 활용하기](./Docker/k8s-tutorials/k8s-3rd-01-configmap.md)
-- [간단한 multi-tier 웹 애플리케이션 배포](./Docker/k8s-tutorials/k8s-3rd-02-deploy-multi-tier-web-app.md)
-
 개념 정리
 
 - [쿠버네티스 개념](./Docker/k8s-01-what-is-k8s.md)
@@ -65,6 +60,25 @@ Though I couldn't make it every single day, I trust it makes me better. GO STEAD
 - [Ingress](./Docker/k8s-06-ingress.md)
 - [Probe (Health check)](./Docker/k8s-probe-healthcheck.md)
 - [helm 사용하기](./Docker/k8s-helm-01-what-is-helm.md)
+
+튜토리얼 시리즈
+
+- [ConfigMap 활용하기](./Docker/k8s-tutorials/k8s-3rd-01-configmap.md)
+- [간단한 multi-tier 웹 애플리케이션 배포](./Docker/k8s-tutorials/k8s-3rd-02-deploy-multi-tier-web-app.md)
+- [메모리 리소스 관리 (request, limit)](./Docker/k8s-tutorials/k8s-4th-01-assign-memory-resource.md)
+- [CPU 리소스 관리 (request, limit)](./Docker/k8s-tutorials/k8s-4th-02-assign-cpu-resource.md)
+- [볼륨(PV/PVC) 이해하고 활용하기](./Docker/k8s-tutorials/k8s-4th-03-volume-for-storage.md)
+- [볼륨 - Projected Volume](./Docker/k8s-tutorials/k8s-4th-04-projected-volume.md)
+- [Secret 활용하기 - using kubectl](./Docker/k8s-tutorials/k8s-5th-01-managing-secret-using-kubectl.md)
+- [Secret 활용하기 - using config file](./Docker/k8s-tutorials/k8s-5th-02-managing-secret-using-config-file.md)
+
+자격증 시험 관련
+
+- [Core Concepts](./Docker/CKAD+CKA/CKAD-01-core-concepts.md)
+- [Multi-container Pods](./Docker/CKAD+CKA/CKAD-02-multi-container-pods.md)
+- [Pod Design - label/annotation/deployment/job&cronjob](./Docker/CKAD+CKA/CKAD-03-pod-design.md)
+- [Configuration - configMap/securityContext/requests&limits/secrets/serviceAccount](./Docker/CKAD+CKA/CKAD-04-configuration.md)
+- [Observability - probe/logging/debugging](./Docker/CKAD+CKA/CKAD-05-observability.md)
 
 ## python
 
