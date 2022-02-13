@@ -37,8 +37,29 @@ kubectl label po nginx2 app-
 - 노드에 라벨 적용
 
 ```
-kubectl label nodes <your-node-name> accelerator=nvidia-tesla-p100
+kubectl label nodes <your-node-name> <labelkey:value>
+kubectl label nodes k8s-node-1 kind=special
 kubectl get nodes --show-labels
+```
+
+특정 노드에 파드를 붙이고 싶다면, 파드 생성 시 `nodeSelector` 를 설정한다.
+
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: podsel
+  name: podsel
+spec:
+  containers:
+  - image: busybox:latest
+    name: podsel
+    args:
+      - sleep
+      - "3600"
+  nodeSelector:
+    kind: special
 ```
 
 ### Annotation

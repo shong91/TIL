@@ -199,9 +199,19 @@ spec:
     env: # our env variables
     - name: USERNAME # asked name
       valueFrom:
-        secretKeyRef: # secret reference
-          name: mysecret2 # our secret's name
-          key: username # the key of the data in the secret
+        secretKeyRef:
+          name: mysecret2
+          key: username
+<<<<<<<<<<
+>>>>>>>>>> 볼륨에 올려 사용할 경우
+    volumeMounts:
+      - name: secret-volume
+        mountPath: /etc/secret-volume
+        readOnly: true
+  volumes:
+  - name: secret-volume
+    secret:
+      secretName: mysecret2
 <<<<<<<<<<
   dnsPolicy: ClusterFirst
   restartPolicy: Never

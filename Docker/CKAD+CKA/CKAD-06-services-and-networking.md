@@ -75,3 +75,95 @@ NetworkPolicy 를 생성한 후, 올바르게 생성 되었는지 확인한다.
 kubectl run busybox --image=busybox --rm -it --restart=Never -- wget -O- http://nginx:80 --timeout 2                          # This should not work. --timeout is optional here. But it helps to get answer more quickly (in seconds vs minutes)
 kubectl run busybox --image=busybox --rm -it --restart=Never --labels=access=granted -- wget -O- http://nginx:80 --timeout 2  # This should be fine
 ```
+
+## 연습문제
+
+1. 80 포트를 노출하고 replica=2 인 nginx deployment 및 type=LoadBalancer인 서비스 생성
+2. 8080 포트를 노출하고 replica=2 인 apache deployment 및 type=LoadBalancer인 서비스 생성
+3. nginx ingress controller 배포
+4. path: /nginx -> nginx svc 로, /apache -> apache svc 로 리다이렉트하도록 인그레스 서비스 생성
+
+```
+kubectl create deployment nginx-lb --image=nginx:latest --replicas=2
+kubectl expose deployment nginx-lb --port=80 --target-port=80 --type=LoadBalancer
+kubectl describe svc nginx-lb
+# curl ${EXTERNAL_IP} and check nginx index page
+
+kubectl create deployment apache-lb --image=bitnami/apache:latest --replicas=2
+kubectl expose deployment apache-lb --port=8080 --target-port=8080 --type=LoadBalancer # Replace by NodePort if you don't have a LoadBalancer provider
+kubectl describe svc apache-lb
+# curl ${EXTERNAL_IP} and check apache index page
+```
+
+web-ingress.yaml:
+
+```
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: web-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: nginx-or-apache.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: /nginx
+        backend:
+          service:
+            name: nginx-lb
+            port:
+              number: 80
+      - pathType: Prefix
+        path: /apache
+        backend:
+          service:
+            name: apache-lb
+            port:
+              number: 8080
+```
+
+nginx ingress controller 를 배포한 뒤,
+
+```
+# If using metallb or cloud deployment
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.46.0/deploy/static/provider/cloud/deploy.yaml
+# If using NodePort
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.46.0/deploy/static/provider/baremetal/deploy.yaml
+```
+
+web-ingress.yaml 파일을 배포한다.
+
+```
+kubectl apply -f web-ingress.yaml
+kubectl describe ingress web-ingress
+
+...
+Rules:
+  Host                 Path  Backends
+  ----                 ----  --------
+  nginx-or-apache.com
+                       /nginx    nginx-lb:80 (10.244.1.30:80,10.244.2.32:80)
+                       /apache   apache-lb:8080 (10.244.1.32:8080,10.244.2.35:8080)
+...
+```
+
+의도한 대로 리다이렉트 되는지 확인하기 위해, busybox pod 를 생성한 뒤 두 서비스의 상태를 확인해본다.
+
+```
+kubectl run busybox --image=busybox --rm -it --restart=Never -- sh
+# nslookup apache-lb
+Server:		10.96.0.10
+Address:	10.96.0.10:53
+
+Name:	apache-lb.default.svc.cluster.local
+Address: 10.101.245.9
+
+# nslookup nginx-lb
+Server:		10.96.0.10
+Address:	10.96.0.10:53
+
+Name:	nginx-lb.default.svc.cluster.local
+Address: 10.108.72.239
+```
