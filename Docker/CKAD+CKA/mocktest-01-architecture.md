@@ -88,10 +88,33 @@ kubectl uncordon controlplane
 ## etcdctl을 통해 ETCD를 백업하고 복구하기
 - https://zgundam.tistory.com/197
 
+```
+ps -aux | grep -i etcd
+
+...
+--cert-file=/etc/kubernetes/pki/etcd/server.crt 
+--client-cert-auth=true 
+--data-dir=/var/lib/etcd 
+--initial-advertise-peer-urls=https://10.10.40.6:2380 
+--initial-cluster=controlplane=https://10.10.40.6:2380 
+--key-file=/etc/kubernetes/pki/etcd/server.key 
+--listen-client-urls=https://127.0.0.1:2379,https://10.10.40.6:2379 
+--listen-metrics-urls=http://127.0.0.1:2381 
+--listen-peer-urls=https://10.10.40.6:2380 
+--name=controlplane 
+--peer-cert-file=/etc/kubernetes/pki/etcd/peer.crt 
+--peer-client-cert-auth=true 
+--peer-key-file=/etc/kubernetes/pki/etcd/peer.key 
+--peer-trusted-ca-file=/etc/kubernetes/pki/etcd/ca.crt 
+--snapshot-count=10000 
+--trusted-ca-file=/etc/kubernetes/pki/etcd/ca.crt
+...
+```
+
 - 백업 
 ```
 ETCDCTL_API=3 etcdctl snapshot save --endpoints=https://127.0.0.1:2379 \
-  --cert=/etc/kubernetes/pki/etcd/server.crt \     #  --cert=<cert-file>
+    --cert=/etc/kubernetes/pki/etcd/server.crt \     #  --cert=<cert-file>
     --key=/etc/kubernetes/pki/etcd/server.key \    # --key=<key-file> 
     --cacert=/etc/kubernetes/pki/etcd/ca.crt \     # --cacert=<trusted-ca-file>
     <backup-file-location> # 백업을 저장할 경로/파일
@@ -100,7 +123,15 @@ ETCDCTL_API=3 etcdctl snapshot save --endpoints=https://127.0.0.1:2379 \
 - 복구
 
 ```
-ETCDCTL_API=3 etcdctl --endpoints https://127.0.0.1:2379 snapshot restore  <backup-file-location> # 백업을 저장할 경로/파일
+ETCDCTL_API=3 etcdctl snapshot restore  --endpoints https://127.0.0.1:2379 \
+    --cert=/etc/kubernetes/pki/etcd/server.crt \     #  --cert=<cert-file>
+    --key=/etc/kubernetes/pki/etcd/server.key \    # --key=<key-file> 
+    --cacert=/etc/kubernetes/pki/etcd/ca.crt \     # --cacert=<trusted-ca-file>
+    --data-dir=/var/lib/etcd                      # --data-dir=<data-dir>
+    --initial-advertise-peer-urls=https://10.10.40.6:2380  # --initial-advertise-peer-urls=<initial-advertise-peer-urls>
+    --initial-cluster=controlplane=https://10.10.40.6:2380  # --initial-cluster=controlplane=<initial-cluster=controlplane>
+    --name=controlplane                                   # --name=<name>
+     <backup-file-location> # 백업을 저장할 경로/파일
 ```
 
 

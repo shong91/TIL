@@ -1,4 +1,5 @@
 # Resources
+kubectl explain pods --recursive
 
 ## static pod를 구성하기
 - **static pod를 생성** Create a static pod on node01 called nginx-critical with image nginx and make sure that it is recreated/restarted automatically in case of a failure.
@@ -74,7 +75,7 @@ affinity:
 ```
 ## Pod Expose 시키기
 ```
-k expose ${pod-name} --port=8080
+k expose pod ${pod-name} --port=8080
 ```
 
 # NetworkPolicy를 사용해서 한 namespace에서 다른 namespace로 통신 가능하게하고, 그 외의 통신 막기
@@ -84,8 +85,23 @@ k expose ${pod-name} --port=8080
 to(pod label)와 from(namespace label) 구분, 무슨 포트만 허용할건지도 명시
 
 ## Resource Limit(CPU, Memory) 걸어서 Pod 만들기
+
 ## clusterrole, clusterrolebinding 하기
+- 롤(Role)은 특정 api나 리소스에 대한 권한들을 명시해둔 규칙들의 집합
+
+1. 롤(Role)
+- 그 롤이 속한 네임스페이스 한 곳에만 적용 
+
+2. 클러스터롤(ClusterRole)
+- 특정 네임스페이스에 대한 권한이 아닌 클러스터 전체에 대한 권한을 관리
+- 네임스페이스에 한정되지 않은 자원 및 api들에 대한 권한을 지정
+- 노드/엔드포인트에 대한 권한 관리
+
 ## two containers pod 만들기
 ## pv 만들기 (hostPath): pvc 만들고 pod 연결하기. 그리고 pvc resize 하기
+pvc 용량 증가시키고 기록하기
+
+   (생성시킨 후 pvc 대상으로 kubectl edit , patch를 쓰라는데.. 이거에 대해 기록하는 명령어가 있는건가..?)
 ## Ingress 만들기
 -  https://kubernetes.io/docs/concepts/services-networking/ingress/
+- curl <Internal-IP>/hi 통신되는지 확인
