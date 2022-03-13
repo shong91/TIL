@@ -1,8 +1,6 @@
 - 17문제 2시간 
 - 66/100 (PASS)
 - 7점짜리가 5문제 정도로 생각보다 많이 나왔던 것 같고, 5점짜리는 4문제 정도, 나머지는 4점짜리 문제가 나왔던 것 같습니다.
-
-
 # Cluster Architecture
 
 ## kubelet의 관련 명령어 
@@ -82,6 +80,30 @@ kubectl uncordon controlplane
 7. 워커 노드의 kubectl, kubelet 업그레이드(kubectl이 없을 경우 kubelet만 업그레이드)
 8. 워커 노드 uncordon
 
+```
+root@controlplane:~# kubectl drain controlplane --ignore-daemonsets
+root@controlplane:~# apt update
+root@controlplane:~# apt-get install kubeadm=1.20.0-00
+root@controlplane:~# kubeadm upgrade plan v1.20.0
+root@controlplane:~# kubeadm upgrade apply v1.20.0
+root@controlplane:~# apt-get install kubelet=1.20.0-00
+root@controlplane:~# systemctl daemon-reload
+root@controlplane:~# systemctl restart kubelet
+root@controlplane:~# kubectl uncordon controlplane 
+root@controlplane:~# kubectl drain node01 --ignore-daemonsets
+
+ssh node01
+root@node01:~# apt update
+root@node01:~# apt-get install kubeadm=1.20.0-00
+root@node01:~# kubeadm upgrade node
+root@node01:~# apt-get install kubelet=1.20.0-00
+root@node01:~# systemctl daemon-reload
+root@node01:~# systemctl restart kubelet
+
+root@controlplane:~# kubectl uncordon node01
+root@controlplane:~# kubectl get pods -o wide | grep gold (make sure this is scheduled on node)
+```
+
 ## kubeadm을 통해 새로운 노드를 워커노드로 붙이기
 - https://hiaurea.tistory.com/146?category=942239
 
@@ -127,13 +149,12 @@ ETCDCTL_API=3 etcdctl snapshot restore  --endpoints https://127.0.0.1:2379 \
     --cert=/etc/kubernetes/pki/etcd/server.crt \     #  --cert=<cert-file>
     --key=/etc/kubernetes/pki/etcd/server.key \    # --key=<key-file> 
     --cacert=/etc/kubernetes/pki/etcd/ca.crt \     # --cacert=<trusted-ca-file>
-    --data-dir=/var/lib/etcd                      # --data-dir=<data-dir>
+    --data-dir=/var/lib/etcd_bak                      # --data-dir=<backup-dir-path>
     --initial-advertise-peer-urls=https://10.10.40.6:2380  # --initial-advertise-peer-urls=<initial-advertise-peer-urls>
     --initial-cluster=controlplane=https://10.10.40.6:2380  # --initial-cluster=controlplane=<initial-cluster=controlplane>
     --name=controlplane                                   # --name=<name>
      <backup-file-location> # 백업을 저장할 경로/파일
 ```
-
 
 # kubectl config current-context 
 
