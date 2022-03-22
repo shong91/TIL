@@ -69,6 +69,7 @@ kubectl top pod -l {LABEL}
 ```
 
 ## sidecar (Logging)
+- https://kubernetes.io/ko/docs/concepts/cluster-administration/logging/
 - https://kubernetes.io/ko/docs/tasks/access-application-cluster/communicate-containers-same-pod-shared-volume/ 
 - https://kim-dragon.tistory.com/148
 

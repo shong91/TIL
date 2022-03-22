@@ -104,4 +104,6 @@ pvc 용량 증가시키고 기록하기
    (생성시킨 후 pvc 대상으로 kubectl edit , patch를 쓰라는데.. 이거에 대해 기록하는 명령어가 있는건가..?)
 ## Ingress 만들기
 -  https://kubernetes.io/docs/concepts/services-networking/ingress/
+- 확인용 파드 생성 (--rm -it --restart=Never)
 - curl <Internal-IP>/hi 통신되는지 확인
+- nslookup 
