@@ -6,15 +6,9 @@ Though I couldn't make it every single day, I trust it makes me better. GO STEAD
 
 # Category
 
-## Java
+## Architecture
 
-- [divide by zero 처리하기](/Java/divideByZero-exception-infinity-NaN.md)
-- [ObjectMapper 를 사용하여 Object 를 Map 으로 변환하기](/Java/convert-object-to-map.md)
-- [Map Iterate(반복문) 사용하기](/Java/map-iterator.md)
-- [jar 파일 내보내어 java project 배포하기](/Java/deploy-via-jar.md)
-- [Java Stream 활용하기](/Java/java-stream.md)
-
-## Spring
+- [DDD 개념](/Architecture/what-is-DDD.md)
 
 ## Database
 
@@ -22,18 +16,6 @@ Though I couldn't make it every single day, I trust it makes me better. GO STEAD
 - [[Oracle] 다중 LIKE 연산자 - 정규표현식 (REGEXP_LIKE)](/Database/oracle-regexp_like.md)
 - [[MySQL] INSERT 시 중복 키 관리하는 방법](/Database/mysql-duplicate-update.md)
 - [[Database] 집합연산자](/Database/operator.md)
-
-## Git
-
-- [자주 쓰이는 Git 명령어 모음](/Git/git-bash-cmd.md)
-- [merge와 rebase의 차이](/Git/git-merge-vs-rebase.md)
-- [git stash 란](/Git/git-stash.md)
-- [Git Tutorial](/Git/tutorial.md)
-
-## Linux
-
-- [WSL2 설치 및 사용법](/OS/WSL2-setup.md)
-- [자주 쓰이는 Linux 명령어 모음](/OS/frequently-used-command-in-Linux.md)
 
 ## Docker/k8s
 
@@ -81,6 +63,28 @@ Though I couldn't make it every single day, I trust it makes me better. GO STEAD
 - [Observability - probe/logging/debugging](/Docker/CKAD+CKA/CKAD-05-observability.md)
 - [Service and Networking](/Docker/CKAD+CKA/CKAD-06-services-and-networking.md)
 - [State Persistence](/Docker/CKAD+CKA/CKAD-07-state-persistence.md)
+
+## Git
+
+- [자주 쓰이는 Git 명령어 모음](/Git/git-bash-cmd.md)
+- [merge와 rebase의 차이](/Git/git-merge-vs-rebase.md)
+- [git stash 란](/Git/git-stash.md)
+- [Git Tutorial](/Git/tutorial.md)
+
+## Java
+
+- [divide by zero 처리하기](/Java/divideByZero-exception-infinity-NaN.md)
+- [ObjectMapper 를 사용하여 Object 를 Map 으로 변환하기](/Java/convert-object-to-map.md)
+- [Map Iterate(반복문) 사용하기](/Java/map-iterator.md)
+- [jar 파일 내보내어 java project 배포하기](/Java/deploy-via-jar.md)
+- [Java Stream 활용하기](/Java/java-stream.md)
+- [JPA 개념](/Java/jpa-what-is-jpa.md)
+- [JPA - 영속성 컨텍스트](/Java/jpa-persistence.md)
+
+## OS
+
+- [WSL2 설치 및 사용법](/OS/WSL2-setup.md)
+- [자주 쓰이는 Linux 명령어 모음](/OS/frequently-used-command-in-Linux.md)
 
 ## python
 
