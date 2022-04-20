@@ -79,7 +79,7 @@ Though I couldn't make it every single day, I trust it makes me better. GO STEAD
 - [jar 파일 내보내어 java project 배포하기](/Java/deploy-via-jar.md)
 - [Java Stream 활용하기](/Java/java-stream.md)
 - [JPA 개념](/Java/jpa-what-is-jpa.md)
-- [JPA - 영속성 컨텍스트](/Java/jpa-persistence.md)
+- [JPA - 영속성 컨텍스트](/Java/jpa-persistent-context.md)
 
 ## OS
 
