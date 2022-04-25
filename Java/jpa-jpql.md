@@ -176,4 +176,5 @@ List<Member> memberList = em.createQuery("select m from Member m join fetch m.te
 
 ## Reference.
 
-1. https://leveloper.tistory.com/103
+1. [JPQL 개요] https://leveloper.tistory.com/103
+2. [N+1 문제 및 해결방안] https://jojoldu.tistory.com/165
