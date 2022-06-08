@@ -98,12 +98,39 @@ https://mangkyu.tistory.com/15
 
 https://m.post.naver.com/viewer/postView.naver?volumeNo=27046347&memberNo=2521903
 
-> ### Q: 스토리지의 고가용성이란 ?
+> ### Q: 고가용성이란 ?
 
-> ### A: 고가용성 = 서비스가 안정적인 상태로 오랜 기간 운영하는 성질
+> ### A: 고가용성(HA) = 서비스가 안정적인 상태로 오랜 기간 운영하는 성질
+
+고가용성을 달성하기 위한 방법 == 다운타임(서비스가 중단되는 시간)을 최소화
+
+- 고가용성 솔루션(HACMP)
+- 서버 이중화
+  - Active/Standby (Cold Standby): HA 클러스터링 된 다중 서버 환경에서, 한 대의 서버는 활성화, 나머지 서버는 대기 상태로 동작. Active 서버 장애 발생 시 Standby 서버에 서비스 이관
+  - Active/Active (Hot Standby): HA 클러스터링 된 다중 서버 환경에서, 모든 서버가 활성화 상태로 동작.(= Load Balancing)
+- 스토리지 이중화 (NAS 이중화)
+
+  - 디스크 공유 방식:
+  - 데이터 통기화 방식:
+
+- LAG
+- RAID 방식의 스토리지
 
 #### 참고
 
 https://tech.gluesys.com/blog/2020/08/22/HA_1_intro.html
 
-> ### RAID 란?
+> ### Q: RAID 란?
+
+> ### A: 독립된 여러 개의 디스크를 묶어 하나의 디스크처럼 사용하는 기술.
+
+장점
+
+- 대용량의 단일 볼륨을 사용하는 효과
+- 디스크 I/O 병렬화로 인한 성능 향상 (RAID 0, RAID 5, RAID 6 등)
+- 데이터 복제로 인한 안정성 향상 (RAID 1 등)
+
+#### 참고
+
+https://harryp.tistory.com/806
+https://jongamk.tistory.com/2199
