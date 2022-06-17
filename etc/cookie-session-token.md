@@ -31,7 +31,57 @@
 
 - 대표적으로 JWT (JSON Web Token)
 - token is a string: space 제약이 없어 매우 긴 string 이 가능
-- sessionDB 에 접근하지 않고, 유저 인증을 할 수 있음
-- 세션은 유저에 대한 모든 정보를 저장하는 반면, 토큰은 해당 signed info 가 유효한지/조작되었는지 여부만을 확인. 유효한 정보일 경우 해당 토큰을 서버 -> 클라이언트로 응답
-- 유저 정보를 저장/추적하지 않음
-- jwt는 서버가 이중 삼중 여러대 일 때 강점을 가짐: 세션의 경우 로드밸런싱으로 유저가 처음 방문했을때는 1번 서버로 방문하여 세션이 남아 있지만, 두번째 방문했을때 1번이 아닌 2번으로 붙게되면 세션정보가 없어 인증 실패하게 된다. -> redis 세션통합으로 개발하거나, 서버에 상관없는 jwt로 인증을 구현함.
+- 토큰 자체로 정보를 가지고 있어, 별도의 인증 서버가 필요 X (sessionDB 에 접근하지 않고, 유저 인증을 할 수 있음)
+- jwt는 서버가 이중 삼중 여러대 일 때 강점을 가짐
+  - 세션의 경우 로드밸런싱으로 유저가 처음 방문했을때는 1번 서버로 방문하여 세션이 남아 있지만, 두번째 방문했을때 1번이 아닌 2번으로 붙게되면 세션정보가 없어 인증 실패하게 된다.
+  - 이를 방지하기 위해 redis 세션통합으로 개발하거나, 서버에 상관없는 jwt로 인증을 구현함.
+
+## JWT 구조
+
+- Header, Payload, Signature 각각 JSON 형태의 데이터를 base 64 인코딩 후 `.` 을 이용해 합친다. (`Header.Payload.Signature`)
+- 최종적으로 만들어진 토큰은 HTTP 통신 간 이용되며, Authorization 이라는 key의 value로서 사용된다.
+
+![img_01](/z.images/jwt-01.png)
+
+### Header
+
+JWT 웹 토큰의 헤더 정보.
+
+```
+{
+  "alg" : "HS256", // 해싱 알고리즘. (HMAC SHA256 or RSA)
+  "typ" : "JWT" // 토큰의 타입
+}
+```
+
+### Payload
+
+실제 토큰으로 사용하려는 데이터가 담기는 부분. 각 데이터를 Claim 이라 한다.
+
+- Reserved claims : 이미 예약된 Claim. 필수는 아니지만 사용하길 권장. key 는 모두 3자리 String이다.
+  - iss (String) : issuer, 토큰 발행자 정보
+  - exp (Number) : expiration time, 만료일
+  - sub (String) : subject, 제목
+  - aud (String) : audience
+- Public claims : 사용자 정의 Claim.
+  - 공개용 정보
+  - 충돌 방지를 위해 URI 포맷을 이용해 저장한다.
+- Private claims : 사용자 정의 Claim
+  - 사용자가 임의로 정한 정보
+
+### Signature
+
+- Header와 Payload의 데이터 무결성과 변조 방지를 위한 서명
+- Header + Payload 를 합친 후, Secret 키와 함께 Header의 해싱 알고리즘으로 인코딩
+
+## 인증 과정
+
+1. 클라이언트에서 사용자 ID/PW 를 통해 인증 요청을 보냄
+2. 서버에서 signed JWT 를 생성하여 해당 토큰을 클라이언트로 응답
+3. 클라이언트는 응답받은 토큰을 Http Header에 넣어 (Bearer Token) 요청
+4. 서버는 토큰 signed info의 유효성 여부 확인하여 유효할 시 응답
+
+## References.
+
+1. https://pronist.dev/143
+2. https://sanghaklee.tistory.com/47
