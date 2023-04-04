@@ -66,3 +66,24 @@ https://joont92.github.io/db/트랜잭션-격리-수준-isolation-level/
 #### 참고
 
 https://www.letmecompile.com/mysql-innodb-lock-deadlock/
+{
+"memberId": 1,
+"itemList": [
+{
+"id": 7,
+"orderQuantity": 2
+}
+]
+}
+
+| API URI                  | HttpMethod | API 명         | 요청               | 응답            |
+| ------------------------ | ---------- | -------------- | ------------------ | --------------- |
+| /api/v1/items            | GET        | 메뉴 목록 조회 | -                  | `List<ItemDto>` |
+| /api/v1/point/{memberId} | PUT        | 포인트 충전    | {"points": 10000}  | `pointId`       |
+| /api/v1/order            | POST       | 커피 주문/결제 | {                  | `orderId`       |
+|                          |            |                | "memberId": 1,     |                 |
+|                          |            |                | "itemList": [{     |                 |
+|                          |            |                | "id": 7,           |                 |
+|                          |            |                | "orderQuantity": 2 |                 |
+|                          |            |                | }]                 |                 |
+| /api/v1/items/top3       | GET        | 인기 메뉴 조회 | -                  | `List<ItemDto>` |
