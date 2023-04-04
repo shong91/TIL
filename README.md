@@ -21,6 +21,7 @@ Though I couldn't make it every single day, I trust it makes me better. GO STEAD
 - [[Oracle] 다중 LIKE 연산자 - 정규표현식 (REGEXP_LIKE)](/Database/oracle-regexp_like.md)
 - [[MySQL] INSERT 시 중복 키 관리하는 방법](/Database/mysql-duplicate-update.md)
 - [[Database] 집합연산자](/Database/operator.md)
+- [DB Index의 개념과 활용: 효율적인 인덱스 생성 전략](/Database/db-index.md)
 
 ## Docker/k8s
 
