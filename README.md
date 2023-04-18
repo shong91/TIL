@@ -43,6 +43,7 @@ Though I couldn't make it every single day, I trust it makes me better. GO STEAD
 - [Java Stream 활용하기](/Java/java-stream.md)
 - [JPA 개념](/Java/jpa-what-is-jpa.md)
 - [JPA - 영속성 컨텍스트](/Java/jpa-persistent-context.md)
+- [[Spring] @Primary 와 @Qualifier 비교하고 이해하기](/Java/primary-qualifier.md)
 
 ## OS
 
