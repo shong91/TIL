@@ -21,5 +21,5 @@ Body 는 HttpMessageConverter 를 통해, request 의 Content-type 에 따라 me
 
 ## References.
 
-https://mangkyu.tistory.com/72
-https://kim-jong-hyun.tistory.com/60
+- https://mangkyu.tistory.com/72
+- https://kim-jong-hyun.tistory.com/60
