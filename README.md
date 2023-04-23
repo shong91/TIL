@@ -45,7 +45,8 @@ Though I couldn't make it every single day, I trust it makes me better. GO STEAD
 - [JPA - 영속성 컨텍스트](/Java/jpa-persistent-context.md)
 - [[Spring] @RequestBody 의 동작 방식](/Java/spring-requestbody.md)
 - [[Spring] @Primary 와 @Qualifier 비교하고 이해하기](/Java/primary-qualifier.md)
-- [[Spring] Spring AOP 이해하기](/Java/spring-AOP.md)
+- [[Spring] Spring AOP 이해하기 (1) - Spring AOP 의 개념](/Java/spring-AOP.md)
+- [[Spring] Spring AOP 이해하기 (2) - @Transactional 의 동작 원리](/Java/spring-AOP-transactional.md)
 
 ## OS
 
