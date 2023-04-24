@@ -43,6 +43,7 @@ Though I couldn't make it every single day, I trust it makes me better. GO STEAD
 - [Java Stream 활용하기](/Java/java-stream.md)
 - [JPA 개념](/Java/jpa-what-is-jpa.md)
 - [JPA - 영속성 컨텍스트](/Java/jpa-persistent-context.md)
+- [Lombok으로 boolean 필드의 getter/setter 생성하기](/Java/isXXX-getter.md)
 - [[Spring] @RequestBody 의 동작 방식](/Java/spring-requestbody.md)
 - [[Spring] @Primary 와 @Qualifier 비교하고 이해하기](/Java/primary-qualifier.md)
 - [[Spring] Spring AOP 이해하기 (1) - Spring AOP 의 개념](/Java/spring-AOP.md)
