@@ -50,6 +50,7 @@ Though I couldn't make it every single day, I trust it makes me better. GO STEAD
 - [[Spring] Spring AOP 이해하기 (2) - @Transactional 의 동작 원리](/Java/spring-AOP-transactional.md)
 - [[Spring] Spring AOP 이해하기 (3) - AOP 를 통한 cutom annotation 적용하기](/Java/spring-AOP-customized.md)
 - [CORS 에러 해결하기](/Java/CORS-error.md)
+- [Builder Pattern 사용하기](/Java/builder-pattern.md)
 
 ## OS
 
