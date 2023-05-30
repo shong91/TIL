@@ -1,4 +1,4 @@
-## @Primary 와 @Qualifier
+## @Primary 와 @Qualifier (1) - 기본편
 
 스프링 애플리케이션에서, 같은 타입의 빈을 두 개 이상 사용할 때 @Primary 혹은 @Qualifier 을 사용한다.
 
