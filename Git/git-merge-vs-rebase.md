@@ -1,92 +1,99 @@
-# git merge와 rebase의 차이, 적절하게 사용하기
+# Merging vs. Rebasing
 
-## 1. merge
+_본 글은 atlassian 의 Git Tutorials - Merging vs. Rebasing 을 번역한 글임을 밝힙니다._
 
-master branch 에 commit 0 ~ 2 가 있는 상태에서, dev branch 를 생성하여 commit 3, 4 를 진행했을 때의 구조는 아래와 같다.
+## 소개
 
-```
-[MASTER] ---> [commit2] ---> [commit1] ---> [commit0]
-              |
-              |
-              [commit3]
-              |
-              [commit4]
-              |
-              [-b DEV]
-```
+`git rebase` 명령어는 초보자가 멀리해야할 마법의 Git hocus pocus 라는 명성이 있지만, 주의하여 잘 사용한다면 개발 팀의 삶을 훨씬 더 쉽게 만들 수 있다.
 
-이 상태에서 `git checkout master` -> `git merge dev` 로 병합하면,
-[commit2] 를 가리키고 있던 master branch 가 fast-forward 되어 dev와 같은 commit 을 가리키게 되며, 구조는 아래와 같이 변경된다.
+이 글에서는, git rebase 와 git merge 명령을 비교하고, rebase 를 전형적인 Git workflow 에서 통합할 수 있는 모든 잠재적인 기회를 알아보도록 하겠다.
 
-```
-[MASTER] --> [commit4]---> [commit3] ---> [commit2] ---> [commit1] ---> [commit0]
-              |
-              |
-              [-b DEV]
+## 개념
 
-```
+가장 먼저 이해해야 하는 것은, `git rebase` 와 `git merge` 는 같은 문제를 해결한다는 것이다. 이 두 명령어는, 하나의 브랜치에서 다른 브랜치로부터의 변경 내용을 통합하기 위해 설계되었다. 하지만, 이 둘은 매우 다른 방식을 취한다.
 
-동일한 시나리오에서, 병합하기 전에 master branch 에서도 추가 commit 이 발생했을 경우,
-merge 하게 되면 fast-forward 하는 대신 새로운 merge commit [commit6] 을 생성한다.
+브랜치에서 새로운 feature 에 대한 내용을 작업하기 시작한 후, 다른 팀원이 메인 브랜치를 새로운 커밋으로 업데이트 하였을 때 어떤 일이 발생하는 지 고려해보자,
+이렇게 되면 브랜치 히스토리가 분기(forked history)되는데, 이는 협업 툴로 Git을 사용해본 사람이라면 매우 친숙할 것이다.
+
+![](https://wac-cdn.atlassian.com/dam/jcr:1523084b-d05a-4f5a-bd1a-01866ec09ca3/01%20A%20forked%20commit%20history.svg?cdnVersion=1044)
+
+자, 이제 메인에 있는 새로운 커밋이 내가 작업 중인 feature 와 관련이 있다고 가정해보자. 새로운 커밋과 나의 feature branch 를 통합하기 위하여, 우리는 두 가지 옵션이 있다: 하나는 merging 이고, 다른 하나는 rebasing 이다.
+
+**_1. Merging_**
+
+가장 쉬운 방법은, `main` 브랜치를 `feature` 브랜치에 병합하는 것이다.
 
 ```
-[MASTER] --> [commit5] ---> [commit2] ---> [commit1] ---> [commit0]
-                            |
-                            |
-                            [commit3]
-                            |
-                            [commit4]
-                            |
-                            [-b DEV]
+git checkout feature
+git merge main
 ```
 
-```
-[MASTER] --> [commit6] --> [commit5] ---> [commit2] ---> [commit1] ---> [commit0]
-              |                            |
-              |                            |
-              |                           [commit3]
-              |                            |
-              |                           [commit4]
-              |<----------------------------
-              [-b DEV]
-```
-
-위와 같이 merge commit 이 생성되는 것은 즉 merge graph 에 가독성을 해치는 commit log 가 찍히는 것이기 때문에, 불필요한 commit object 의 생성을 방지하기 위해 rebase 를 사용할 수 있다.
-
-**cf) merge - fast-forward 와 non-fast-forward**
-
-1-1. fast-forward :
-
-![img_01](../z.images/git_ff.JPG)
-
-1-2. non-fast-forward:
-
-![img_01](../z.images/git_nff.JPG)
-
-## 2. rebase:
-
-![img_01](../z.images/git_rebase.JPG)
-
-rebase 는 말 그대로, base 를 다시 설정한다는 의미이다.
-
-merge commit 이 일어났던 동일 시나리오에서 rebase 를 진행할 시, [commit5] 가 base commit 으로 변환된다. (`git checkout dev` -> `git rebase master`)
+혹은, 아래와 같이 한 줄로도 가능하다.
 
 ```
-[MASTER] --> [commit5] ---> [commit2] ---> [commit1] ---> [commit0]
-              |
-              |
-              [commit3]
-              |
-              [commit4]
-              |
-              [-b DEV]
+git merge feature main
 ```
 
-이 상태에서 `git checkout master` -> `git merge dev` 할 시 merge commit 이 생기지 않고 fast-forward 가 발생할 수 있다.
+이렇게 하면, 새로운 "merge commit" 이 feature branch 에 생성되며, 이 머지 커밋은 두 브랜치의 이력을 하나로 묶어준다. 구조를 그려보자면 아래와 같다.
 
-브랜치에서 작업한 내용을 바로 merge 시킬 때에는 git merge 명령어를 이용하지만,
-일반적으로, 다른 팀원들의 review & confirm 이 필요할 경우 push -> pull request 를 요청한다. (`git rebase master -> git push dev`)
+![](https://wac-cdn.atlassian.com/dam/jcr:4639eeb8-e417-434a-a3f8-a972277fc66a/02%20Merging%20main%20into%20the%20feature%20branh.svg?cdnVersion=1044)
 
-### References
+Merging 은 비파괴적인(non-destructive) 한 방식이기에 좋다. 기존의 브랜치는 어떤 방식으로도 변경되지 않는다. 이는 rebasing 에서 발생하는 모든 잠재적인 함정들를 방지한다. (rebase 의 함정에 대하여는 후술한다.)
 
-1. https://cyberx.tistory.com/96
+반면에, 이는 내가 upstream changes 를 통합할 때마다 feature branch 에 불필요한 merge commit 이 생성됨을 의미한다. `main` 브랜치가 변경이 잦다면, 나의 브랜치의 이력이 merge commit 으로 인해 제법 오염될 수 있다. 향상된 `git log` 옵션을 이용해 이러한 이슈를 완화할 수 있지만, 이는 다른 개발자들이 프로젝트의 이력을 이해하는 데 어렵게 만든다.
+
+**_2. Rebasing_**
+
+merging 대신, 우리는 feature 브랜치를 main 브랜치로 rebase 할 수 있다.
+
+```
+git checkout feature
+git rebase main
+```
+
+rebase 는 모든 `feature` 브랜치를, `main` 브랜치의 끝 지점에서부터 시작하도록 옮기는 것으로, 모든 새로운 커밋이 main 브랜치로 통합되도록 한다. 그러나, merge commit 을 사용하는 대신에, rebase 는 원본 브랜치의 각각의 커밋에 대해 새로운 커밋으로 생성함으로써, 프로젝트의 이력을 다시 쓴다(re-writes).
+
+![](https://wac-cdn.atlassian.com/dam/jcr:3bafddf5-fd55-4320-9310-3d28f4fca3af/03%20Rebasing%20the%20feature%20branch%20into%20main.svg?cdnVersion=1044)
+
+rebasing 의 주요 이점은, 프로젝트 이력을 훨씬 깔끔하게 관리할 수 있다는 점이다. 첫째로, `git merge` 를 사용할 때 요구되었던 불필요한 merge commit 을 제거 할 수 있다. 둘째, 위의 그림에서 보듯이, rebasing 은 완벽한 선형 프로젝트 이력을 만들어낸다. 이는 어떠한 분기(fork) 없이, 프로젝트의 시작과 feature 브랜치의 끝을 따라갈 수 있다. 즉, `git log`, `git bisect`, `gitk` 등의 명령어를 이용해 우리의 프로젝트를 탐색하기 쉬워진다는 뜻이다.
+
+그러나, 이 깔끔한 커밋 이력에는 2개의 trade-off 가 따른다. 안전성(safety)과 추적성(traceability)이다.
+만약 당신이 [Golden Rule of Rebasing](https://www.atlassian.com/git/tutorials/merging-vs-rebasing#the-golden-rule-of-rebasing)을 따르지 않았다면, 프로젝트 이력을 다시 쓰면(re-writing) 당신의 협업 workflow에 잠재적인 대재앙이 될 수 있다. 또한, (덜 중요하기는 하지만), rebasing 을 하면 merge commit 이 제공하는 컨텍스트를 잃게 된다. 즉, upstream changes 가 언제 feature에 통합되었는지 알 수 없게 된다.
+
+**_3. Interactive Rebasing_**
+
+Interactive Rebasing 은 커밋이 새로운 브랜치를 옮겨질 때에, 커밋을 변경할 기회를 준다. 이는 브랜치의 커밋 이력을 완전히 제어할 수 있기 때문에, automated rebase 보다 훨씬 더 강력하다. 전형적으로, 이는 feature 브랜치를 main 으로 병합하기 전에, 지저분한 이력을 지우는 데에 사용된다.
+
+Interactive Rebasing 은 `-i` 옵션을 사용한다.
+
+```
+git checkout feature
+git rebase -i main
+```
+
+아래와 같이 text editor 에서 옮겨질 모든 커밋이 나열된다.
+
+```
+pick 33d5b7a Message for commit #1
+pick 9480b3d Message for commit #2
+pick 5c67e61 Message for commit #3
+```
+
+이 목록은, rebase 가 수행된 후 브랜치가 어떻게 보여질 지 정의한다. `pick` 명령을 변경하거나, 항목을 재정렬하여 브랜치 이력을 원하는대로 만들 수 있다.
+두 번째 커밋이 첫 번째 커밋의 작은 문제를 수정하는 경우, `fixup` 커맨드를 이용해 하나의 커밋으로 압축할 수 있다.
+
+```
+pick 33d5b7a Message for commit #1
+fixup 9480b3d Message for commit #2
+pick 5c67e61 Message for commit #3
+```
+
+editor 파일을 save/close 하면, Git 은 당신의 지시에 따라 rebase 를 수행한다. 그 결과, 프로젝트 이력은 아래 그림과 같을 것이다.
+
+![](https://wac-cdn.atlassian.com/dam/jcr:a712e238-6cb9-4c8c-8ef7-1975dca49be3/04%20Squashing%20a%20commit%20with%20an%20interactive%20rebase.svg?cdnVersion=1044)
+
+중요하지 않은 커밋을 제거하여, 우리의 feature 브랜치의 이력을 더욱 이해하기 쉽게 만들었다. 이는 `git merge` 로는 할 수 없는 일이다.
+
+## References.
+
+- https://www.atlassian.com/git/tutorials/merging-vs-rebasing
