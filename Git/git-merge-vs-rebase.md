@@ -94,6 +94,35 @@ editor 파일을 save/close 하면, Git 은 당신의 지시에 따라 rebase �
 
 중요하지 않은 커밋을 제거하여, 우리의 feature 브랜치의 이력을 더욱 이해하기 쉽게 만들었다. 이는 `git merge` 로는 할 수 없는 일이다.
 
+## Rebasing 의 황금법칙 (Golden Rule of Rebasing)
+
+일단 당신이 rebasing 이 무엇인지 이해하면, 배워야 할 가장 중요한 것은 **_언제 쓰면 안되는지_** 이다. `git rebase`의 황금 법칙은 **public branch 에서는 사용하지 말 것** 이다.
+
+예를 들어, main 브랜치를 feature 브랜치로 rebase 하였다고 가정하자. (rebase main onto your feature branch)
+
+![](https://wac-cdn.atlassian.com/dam/jcr:2908e0e6-f74b-4425-b5d2-f5eca8cfcd99/05%20Rebasing%20the%20main%20branch.svg?cdnVersion=1044)
+
+rebase 는 메인 브랜치의 모든 커밋을 feature 브랜치의 끝으로 옮긴다. 문제는, 이것이 당신의 레파지토리에서만 일어나는 일이라는 점이다. 다른 개발자들은 여전히 origin main 에서 작업을 하고 있다. rebasing 은 새로운 커밋을 만드므로, Git 은 당신의 main 브랜치의 이력은 다른 모든 브랜치의 이력과 다른 것으로 간주할 것이다.
+
+두 메인 브랜치를 동기화하는 유일한 방법은, 그들을 다시 병합하는 것이다: 그렇게 하면 부가적인 merge commit 과, 동일한 변경 사항이 포함된 2개 세트의 커밋이 생성된다. (origin 에 있는 내역 하나, rebase 된 브랜치에 있는 내역 하나). 말할 필요도 없이, 매우 혼란스러운 상황이 벌어진다.
+
+그러므로, `git rebase` 를 실행하기 전에는, 반드시 **"누군가가 이 브랜치를 보고 있는지?"** 확인하여야 한다. 만약 그렇다면, 키보드에서 손을 떼고, 비파괴적으로 변경할 수 있는 방법을 고민해보아야 한다. (ex) `git revert`) 그렇지 않으면, 당신이 원하는 만큼 기록을 다시 써도(re-write) 안전하다.
+
+**_Force-Pushing_**
+
+만약 당신이 rebase 된 `main` 브랜치를 다시 원격 레파지토리에 push 하고자 한다면, 원격 `main` 브랜치와 충돌이 일어나기 때문에, Git 은 이를 막을 것이다. 그러나, 당신은 `--force` 옵션을 이용하여 push 를 강제로 실행할 수 있다.
+
+```
+# Be very careful with this command! git push --force
+```
+
+이렇게 하면 원격 `main` 브랜치를 레파지토리의 rebased 브랜치와 일치하도록 덮어쓴다. 그리고 이것은 남은 팀원들을 매우 혼란스럽게 만든다!
+그러므로, `--force` 옵션을 사용할 때에는 당신이 무엇을 하고 있는지 명확히 알고 있을 때에만, 매우 주의하여 사용하여야 한다.
+
+강제로 push 하여야 하는 유일한 경우는, private feature 브랜치를 원격 레파지토리에 푸시한 후, 로컬을 정리하는(cleanup) 경우이다. (ex. 백업 목적)
+
+이는 "죄송합니다. 원래 버전의 feature 브랜치를 푸시하고 싶지 않았습니다. 대신 현재 버전을 사용하세요" 라고 말하는 것과 같다. 다시 한 번 말하지만, 아무도 원래 버전의 feature 브랜치에서 커밋하지 않는 것이 중요하다.
+
 ## References.
 
 - https://www.atlassian.com/git/tutorials/merging-vs-rebasing
