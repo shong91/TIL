@@ -175,8 +175,6 @@ git merge-base feature main
 
 ![](https://wac-cdn.atlassian.com/dam/jcr:1896adb1-5d49-419a-9b50-3a36adac186c/09.svg?cdnVersion=1066)
 
-![](https://wac-cdn.atlassian.com/dam/jcr:1896adb1-5d49-419a-9b50-3a36adac186c/09.svg?cdnVersion=1066)
-
 이 리베이스는 locla/feature 커밋만 이동하고, 그 이전의 모든 커밋은 그대로 유지되므로 Rebasing 의 황금법칙 (Golden Rule of Rebasing)에 위배되지 않는다. 이는 "나의 변경사항을 John 이 이미 한 작업에 추가한다" 라는 말과 같다. 대부분의 상황에서, 이는 merge commit 을 통해 원격 브랜치와 동기화하는 것보다 더 직관적이다.
 
 디폴트로, `git pull` 커맨드는 병합을 수행하지만, `--rebase` 옵션을 통해 원격 브랜치를 리베이스와 통합하도록 강제할 수 있다.
@@ -194,10 +192,6 @@ git merge-base feature main
 feature 가 팀에게 승인 받은 후에,feature 를 main 의 끝으로 rebase 한 뒤, `git merge` 를 이용해 feature 를 main 코드 베이스에 통합할 수 있다.
 
 이는 upstream changes 를 feature 브랜치에 통합하는 것과 비슷한 상황으로 보인다. 하지만, main 브랜치에서 커밋을 다시 쓰는 것을 허용하지 않기 때문에, 최종적으로 feature 를 통합하기 위해 `git merge` 를 사용하여야 한다. 그러나, merge 하기 전에 rebase 를 수행하면, merge 는 fast-forwarded 방식으로 진행되기 때문에, 완벽히 선형의 이력을 만들 수 있다. 이는 또한 Pull Request 동안 추가된 모든 후속 커밋들을 squash 할 수 있는 기회를 제공한다.
-
-![](https://wac-cdn.atlassian.com/dam/jcr:412813ee-381f-42f6-8b43-79760d2da0dc/08-10%20Integrating%20a%20feature%20into%20master%20with%20and%20without%20a%20rebase.svg?cdnVersion=1066)
-
-![](https://wac-cdn.atlassian.com/dam/jcr:412813ee-381f-42f6-8b43-79760d2da0dc/08-10%20Integrating%20a%20feature%20into%20master%20with%20and%20without%20a%20rebase.svg?cdnVersion=1066)
 
 ![](https://wac-cdn.atlassian.com/dam/jcr:412813ee-381f-42f6-8b43-79760d2da0dc/08-10%20Integrating%20a%20feature%20into%20master%20with%20and%20without%20a%20rebase.svg?cdnVersion=1066)
 
