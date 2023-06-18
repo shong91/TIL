@@ -123,6 +123,104 @@ rebase 는 메인 브랜치의 모든 커밋을 feature 브랜치의 끝으로 �
 
 이는 "죄송합니다. 원래 버전의 feature 브랜치를 푸시하고 싶지 않았습니다. 대신 현재 버전을 사용하세요" 라고 말하는 것과 같다. 다시 한 번 말하지만, 아무도 원래 버전의 feature 브랜치에서 커밋하지 않는 것이 중요하다.
 
+## 워크플로우 연습
+
+리베이스는 당신의 팀이 편하게 사용할 수 있는 만큼 Git worklow에 통합할 수 있다. 이번 세션에서는, feature 개발의 다양한 단계에서 리베이스가 제공할 수 있는 이점에 대하여 살펴보겠다.
+
+git rebase 를 활용하는 워크플로우의 첫 번째 스텝은, 각각의 feature 를 위한 전용 브랜치를 생성하는 것이다. 이를 통해 리베이스를 안전하게 사용하는데 필요한 브랜치 구조를 가질 수 있다.
+
+![](https://wac-cdn.atlassian.com/dam/jcr:88bfb19f-81ca-4202-b5d1-f2d8fa8778f2/06%20Developing%20a%20feature%20in%20a%20dedicated%20branch.svg?cdnVersion=1066)
+
+**_Local Cleanup_**
+
+리베이스를 워크 플로우에 통합하기 위한 최적의 방법 중 하나는, 진행 중인 로컬 기능을 정리(clean up) 하는 것이다. 대화형 리베이스(interactive rebase)를 주기적으로 수행함으로써, feature 에 있는 각각의 commit 이 집중되고 의미있는지 확인할 수 있다. 이를 통해 코드를 분리된 commit 으로 나눌 걱정 없이 코드를 작성할 수 있으며, 사후에 수정할 수 있다.
+
+`git rebase` 를 호출할 때에, new base 를 위한 두 가지 옵션이 있다. 1) feature 의 부모 브랜치 (eg) main) 이나, 2) feature 이전의 커밋이다. 대화형 리베이스 세션에서, 첫번째 옵션의 예를 살펴보았다. 두번째 옵션은 당신이 마지막 몇 개의 커밋만 수정해야 할 때에 유용하다. 예를 들어, 다음의 커맨드는 마지막 3개 커밋만 interactive rebase 를 시작한다.
+
+```
+git checkout feature git rebase -i HEAD~3
+```
+
+`HEAD~3` 를 new base 로 특정함으로써, 실제로 브랜치를 이동하는 것이 아니라, 그 뒤에 있는 3개의 커밋을 interactive 하게 다시 쓰는 것이다. 이렇게 하면, upstream changes 는 feature 브랜치에 통합되지 않는다는 점을 유의하라.
+
+![](https://wac-cdn.atlassian.com/dam/jcr:51d9f126-1fc1-4c6c-ba52-c4085cd59002/07%20Rebasing%20into%20Head-3.svg?cdnVersion=1066)
+
+이 방식을 사용하여 전체 feature 를 다시 쓰고자 한다면, `git merge-base` 명령어는 feature 브랜치의 오리지널 베이스를 찾는 데 유용할 수 있다. 다음은 오리지널 베이스의 commit id 를 리턴하며, 이를 `git rebase` 에 전달 할 수 있다.
+
+```
+git merge-base feature main
+```
+
+이 interactive rebase 의 방식은, 로컬 브랜치에만 영향을 미친다는 점에서, 워크 플로우에 `git rebase` 를 도입하는데 훌륭한 방식이다. 다른 개발자들이 보는 것은 당신이 끝낸(clean up 된) 결과물이기 때문에, feature 브랜치의 이력을 follow up 하기 쉬워진다.
+
+하지만, 반복하여 말하지만, 이는 private feature 브랜치에서만 사용하여야 한다. 다른 개발자와 같은 feature 브랜치를 공동 작업하는 경우, 그 브랜치는 public 브랜치이기 때문에, 이력을 다시 쓰는 것은 허용되지 않는다.
+
+이 경우, interactive rebase 로 로컬 커밋을 정리할 수 있는 git 병합 대안은 없다.
+
+**_Incorporating Upstream Changes Into a Feature_**
+
+[개념](/Git/git-merge-vs-rebase.md#개념) 섹션에서, `git merge` 나 `git rebase`를 통하여 feature 브랜치가 main 브랜치에 upstream changes 를 통합하는 방법을 살펴 보았다.
+
+`merge` 는 당신의 레파지토리의 모든 이력을 보존하는 안전한 방식이다. 반면, `rebase`는 feature 를 main 브랜치의 끝으로 옮김으로써 선형의 이력을 생성한다.
+
+`git rebase`의 사용은 로컬 cleanup (동시에 수행할 수 있다는 점에서) 과 유사하다. 하지만, 이 과정에서 메인에서 upstream commit 들을 통합한다.
+
+메인 브랜치가 아닌 원격 브랜치로 rebase 하는 것은 완전이 합법적인 것을 명심하라. 다른 개발자와 같은 feature 를 공동 작업할 때에, 다른 개발자의 변경 내용을 당신의 레파지토리에 통합하여야 할 때 이런 일이 발생할 수 있다.
+
+예를 들어, 당신은 John 이라는 다른 개발자와 함께 feature 브랜치에 커밋을 추가하였다. John 의 레파지토리에서 remote feature 브랜치를 가져온 뒤, 레파지토리는 아래와 같이 보일 수 있다.
+
+![](https://wac-cdn.atlassian.com/dam/jcr:0bb661aa-361d-47ba-8c7b-00b3be0546cb/08.svg?cdnVersion=1066)
+
+이 fork 는 upstream changes 를 통합할 때와 동일한 방식으로 해결할 수 있다. local/feature 를 john/feature 와 병합하거나, local/feature 를 john/feature 의 끝으로 리베이스 하는 것이다.
+
+![](https://wac-cdn.atlassian.com/dam/jcr:1896adb1-5d49-419a-9b50-3a36adac186c/09.svg?cdnVersion=1066)
+
+![](https://wac-cdn.atlassian.com/dam/jcr:1896adb1-5d49-419a-9b50-3a36adac186c/09.svg?cdnVersion=1066)
+
+이 리베이스는 locla/feature 커밋만 이동하고, 그 이전의 모든 커밋은 그대로 유지되므로 Rebasing 의 황금법칙 (Golden Rule of Rebasing)에 위배되지 않는다. 이는 "나의 변경사항을 John 이 이미 한 작업에 추가한다" 라는 말과 같다. 대부분의 상황에서, 이는 merge commit 을 통해 원격 브랜치와 동기화하는 것보다 더 직관적이다.
+
+디폴트로, `git pull` 커맨드는 병합을 수행하지만, `--rebase` 옵션을 통해 원격 브랜치를 리베이스와 통합하도록 강제할 수 있다.
+
+**_Reviewing a Feature With a Pull Request_**
+
+코드 리뷰 프로세스의 일부로 pull request 를 이용한다면, PR 을 생성한 후에 `git rebase` 를 사용하지 않아야 한다. PR을 생성하자마자, 다른 개발자가 당신의 commit 을 확인하게 되며, 이는 즉 당신의 브랜치는 이제 public 하다는 뜻이다. 이력을 다시 쓰는 것은 Git 과 당신의 팀원들이 feature 에 더해지는 모든 후속 커밋(follow-up commit) 들을 추적할 수 없게 만든다.
+
+다른 개발자의 모든 변경사항은, `git rebase` 가 아닌, `git merge` 를 통해 통합되어야 한다.
+
+**이러한 이유로, 일반적으로 PR 을 보내기 전에 interative rebase 로 코드를 정리하는 것이 좋다.**
+
+**_Integrating an Approved Feature_**
+
+feature 가 팀에게 승인 받은 후에,feature 를 main 의 끝으로 rebase 한 뒤, `git merge` 를 이용해 feature 를 main 코드 베이스에 통합할 수 있다.
+
+이는 upstream changes 를 feature 브랜치에 통합하는 것과 비슷한 상황으로 보인다. 하지만, main 브랜치에서 커밋을 다시 쓰는 것을 허용하지 않기 때문에, 최종적으로 feature 를 통합하기 위해 `git merge` 를 사용하여야 한다. 그러나, merge 하기 전에 rebase 를 수행하면, merge 는 fast-forwarded 방식으로 진행되기 때문에, 완벽히 선형의 이력을 만들 수 있다. 이는 또한 Pull Request 동안 추가된 모든 후속 커밋들을 squash 할 수 있는 기회를 제공한다.
+
+![](https://wac-cdn.atlassian.com/dam/jcr:412813ee-381f-42f6-8b43-79760d2da0dc/08-10%20Integrating%20a%20feature%20into%20master%20with%20and%20without%20a%20rebase.svg?cdnVersion=1066)
+
+![](https://wac-cdn.atlassian.com/dam/jcr:412813ee-381f-42f6-8b43-79760d2da0dc/08-10%20Integrating%20a%20feature%20into%20master%20with%20and%20without%20a%20rebase.svg?cdnVersion=1066)
+
+![](https://wac-cdn.atlassian.com/dam/jcr:412813ee-381f-42f6-8b43-79760d2da0dc/08-10%20Integrating%20a%20feature%20into%20master%20with%20and%20without%20a%20rebase.svg?cdnVersion=1066)
+
+`git rebase`에 완전히 익숙하지 않다면, 언제든 임시 브랜치에서 리베이스를 수행할 수 있다. 이 방식으로, 실수로 feature 의 이력이 망가져(mess up) 버렸다면, 오리지널 브랜치에 check out 하고 다시 시도할 수 있다.
+
+```
+git checkout feature
+git checkout -b temporary-branch
+git rebase -i main
+# [Clean up the history]
+git checkout main
+git merge temporary-branch
+```
+
+## 요약
+
+브랜치 리베이스 작업을 시작하기 위해 알아야 할 것은 이것이 전부이다.
+
+불필요한 merge commit 이 없는 깔끔한 선형 이력을 원한다면, 다른 브랜치의 변경 내용을 통합할 때에 `git rebase` 를 사용하면 된다.
+반면에, 프로젝트의 전체 이력을 보존하고, public commit 을 다시 작성하는 위험을 피하고 싶다면 `git merge` 를 계속 사용하면 된다.
+
+두 옵션 모두 완벽하게 유효하다. 하지만 적어도 지금은, 당신에게 `git rebase`의 이점을 활용할 수 있는 옵션이 있다.
+
 ## References.
 
 - https://www.atlassian.com/git/tutorials/merging-vs-rebasing
