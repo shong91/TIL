@@ -55,6 +55,7 @@ Though I couldn't make it every single day, I trust it makes me better. GO STEAD
 - [Builder Pattern 사용하기](/Java/builder-pattern.md)
 - [헤더에는 왜 언더스코어를 쓰면 안되나요?](/Java/dont-use-underscore-in-http-header.md)
 - [Shorten URL 생성하기](/Java/generate-shorten-url.md)
+- [Spring Security + JWT 인증/인가 구현하기](/Java/authenticate-jwt.md)
 
 ## OS
 
