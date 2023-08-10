@@ -40,3 +40,8 @@
 - [Ingress](/devOps/k8s/k8s-06-ingress.md)
 - [Probe (Health check)](/devOps/k8s/k8s-probe-healthcheck.md)
 - [helm 사용하기](/devOps/k8s/k8s-helm-01-what-is-helm.md)
+
+## CI/CD
+
+- [혼자 해보는 CI/CD 구축기 with argoCD (1) - ArgoCD 란](/devOps/deploy-with-argocd-1.md)
+- [혼자 해보는 CI/CD 구축기 with Argo CD (2) - 프로젝트 생성부터 kubernetes 배포까지](/devOps/deploy-with-argocd-2.md)
